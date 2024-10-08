@@ -40,7 +40,7 @@ MainMenu, header, footer {visibility: hidden;}
 </style>
 """,unsafe_allow_html=True)
 
-if "connection" not in st.session_state:
+if 'connection' not in st.session_state or not st.session_state.connection.is_connected():
     st.session_state.connection =  mysql.connector.connect(
         host="mysql-5893c62-jsw-test.a.aivencloud.com",
         user="avnadmin",
