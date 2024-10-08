@@ -15,6 +15,7 @@ from others.eventsandcamps import Events_Camps
 from others.recordsandfilters import Records_Filters
 from others.mockdrill import Mock_Drill
 from others.appointment import Appointment
+from others.reviewpeople import Review_People
 from others.admin.pages.dashboard import dashboard
 from others.admin.pages.addDoctor import addDoctor
 from others.admin.pages.addNurse import addNurse
@@ -155,8 +156,8 @@ if __name__ == "__main__":
         if st.session_state.accessLevel == "doctor":
             with st.sidebar:
                 st.image("./src/assets/logo.png")
-                selected = option_menu(None, ['Search',"Dashboard", 'New Visit', 'Events & Camps', 'Records & Filters','Mock Drills', 'Appointments'], 
-                    icons=['search', 'house','gear', 'calendar', 'filter', 'shield', 'calendar-check'],
+                selected = option_menu(None, ['Search',"Dashboard", 'New Visit', 'Events & Camps', 'Records & Filters','Mock Drills', 'Appointments','Review People'], 
+                    icons=['search', 'house','gear', 'calendar', 'filter', 'shield', 'calendar-check','person-vcard'],
                     menu_icon="building-fill-add", 
                     default_index=1)
                 
@@ -190,6 +191,10 @@ if __name__ == "__main__":
             
             if selected == "Appointments":
                 Appointment(st.session_state.connection, st.session_state.accessLevel)
+            
+            if selected == "Review People":
+                Review_People(st.session_state.connection, st.session_state.accessLevel)
+
         
         if st.session_state.accessLevel == "nurse":
             
@@ -231,3 +236,4 @@ if __name__ == "__main__":
             if selected == "Appointments":
                 Appointment(st.session_state.connection, st.session_state.accessLevel)
 
+            
