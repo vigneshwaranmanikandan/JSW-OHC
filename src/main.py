@@ -21,6 +21,8 @@ from others.admin.pages.addNurse import addNurse
 from others.admin.pages.addReferenceRange import addReferenceRange
 from streamlit_option_menu import option_menu
 from others.admin.pages.addEmp import addEmp
+from others.alcoholics import alcoholics
+from others.pharmacy import pharmacy_operations
 
 
 icon = Image.open("./src/assets/favicon.png")
@@ -155,7 +157,7 @@ if __name__ == "__main__":
         if st.session_state.accessLevel == "doctor":
             with st.sidebar:
                 st.image("./src/assets/logo.png")
-                selected = option_menu(None, ['Search',"Dashboard", 'New Visit', 'Events & Camps', 'Records & Filters','Mock Drills', 'Appointments'], 
+                selected = option_menu(None, ['Search',"Dashboard", 'New Visit', 'Events & Camps', 'Records & Filters','Mock Drills', 'Appointments', ], 
                     icons=['search', 'house','gear', 'calendar', 'filter', 'shield', 'calendar-check'],
                     menu_icon="building-fill-add", 
                     default_index=1)
@@ -190,31 +192,38 @@ if __name__ == "__main__":
             
             if selected == "Appointments":
                 Appointment(st.session_state.connection, st.session_state.accessLevel)
+
+            if selected == "alcoholic":
+                alcoholics(st.session_state.connection, cursor)
+
+            
         
         if st.session_state.accessLevel == "nurse":
-            
             with st.sidebar:
                 st.image("./src/assets/logo.png")
-                selected = option_menu(None,options=['Search',"Dashboard", 'New Visit', 'Events & Camps', 'Records & Filters','Mock Drills', 'Appointments'], 
-                    icons=['search', 'house','gear', 'calendar', 'filter', 'shield', 'calendar-check'],
-                    menu_icon="building-fill-add", 
-                    default_index=1)
+                selected = option_menu(
+                    None,
+                    options=['Search', 'Dashboard', 'New Visit', 'Events & Camps', 'Records & Filters', 'Mock Drills', 'Appointments', 'Alcoholic status'],
+                    icons=['search', 'house', 'gear', 'calendar', 'filter', 'shield', 'calendar-check', 'fa-wine-glass-alt'],  # Updated icon for Alcohol
+                    menu_icon="building-fill-add",
+                    default_index=1
+                )
                 
                 st.divider()
-
                 st.header(f"Login as {st.session_state.accessLevel.capitalize()}")
-
                 st.divider()
+
                 if st.button("Logout"):
                     st.session_state.login = False
                     st.write("Logout Success")
                     st.rerun()
-            
+
+            # Handling the menu item selections
             if selected == "Dashboard":
-                Dashboard(st.session_state.connection,cursor, "nurse")
-            
+                Dashboard(st.session_state.connection, cursor, "nurse")
+
             if selected == "New Visit":
-                New_Visit(st.session_state.connection,cursor)
+                New_Visit(st.session_state.connection, cursor)
 
             if selected == "Search":
                 Search(cursor)
@@ -224,10 +233,57 @@ if __name__ == "__main__":
 
             if selected == "Records & Filters":
                 Records_Filters(cursor)
-            
+
             if selected == "Mock Drills":
-                Mock_Drill(st.session_state.connection,cursor)
-            
+                Mock_Drill(st.session_state.connection, cursor)
+
             if selected == "Appointments":
                 Appointment(st.session_state.connection, st.session_state.accessLevel)
+
+            if selected == "Alcoholic status":
+                alcoholics(st.session_state.connection, cursor)
+
+
+        if st.session_state.accessLevel == "pharmacy":
+            with st.sidebar:
+                st.image("./src/assets/logo.png")
+                selected = option_menu(
+                    None,
+                    options=['Add Stock', 'Consumption', 'Current Stock', 'Expiry', 'Minimum Stock'],
+                    icons=['plus-square', 'shopping-cart', 'box', 'clock', 'warning'],
+                    menu_icon="box-seam",
+                    default_index=0
+                )
+                st.divider()
+                st.header(f"Login as {st.session_state.accessLevel.capitalize()}")
+                st.divider()
+
+                if st.button("Logout"):
+                    st.session_state.login = False
+                    st.write("Logout Success")
+                    st.rerun()
+
+            # Define functionality for each pharmacy operation
+            if selected == "Add Stock":
+                st.write("Pharmacy: Add Stock")
+                # Placeholder for Add Stock functionality (replace with your actual logic)
+                # You can implement stock addition form here
+            elif selected == "Consumption":
+                st.write("Pharmacy: Consumption")
+                # Placeholder for Consumption functionality
+                # Implement logic to track consumption of medicines
+            elif selected == "Current Stock":
+                st.write("Pharmacy: Current Stock")
+                # Placeholder for Current Stock functionality
+                # Implement inventory display logic
+            elif selected == "Expiry":
+                st.write("Pharmacy: Expiry")
+                # Placeholder for Expiry tracking functionality
+                # Display medicines nearing expiry
+            elif selected == "Minimum Stock":
+                st.write("Pharmacy: Minimum Stock")
+                # Placeholder for Minimum Stock tracking functionality
+                # Implement logic to track low stock and set thresholds
+
+
 
