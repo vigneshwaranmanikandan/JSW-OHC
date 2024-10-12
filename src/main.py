@@ -22,7 +22,11 @@ from others.admin.pages.addReferenceRange import addReferenceRange
 from streamlit_option_menu import option_menu
 from others.admin.pages.addEmp import addEmp
 from others.alcoholics import alcoholics
-from others.pharmacy import pharmacy_operations
+from others.addStock import addStock
+from others.currentStock import currStock
+from others.minStock import minStock
+from others.Expiry import expiry
+from others.consumption import consumption
 
 
 icon = Image.open("./src/assets/favicon.png")
@@ -265,25 +269,15 @@ if __name__ == "__main__":
 
             # Define functionality for each pharmacy operation
             if selected == "Add Stock":
-                st.write("Pharmacy: Add Stock")
-                # Placeholder for Add Stock functionality (replace with your actual logic)
-                # You can implement stock addition form here
+                addStock(st.session_state.connection)
             elif selected == "Consumption":
-                st.write("Pharmacy: Consumption")
-                # Placeholder for Consumption functionality
-                # Implement logic to track consumption of medicines
+                consumption(st.session_state.connection)
             elif selected == "Current Stock":
-                st.write("Pharmacy: Current Stock")
-                # Placeholder for Current Stock functionality
-                # Implement inventory display logic
+                currStock(st.session_state.connection)
             elif selected == "Expiry":
-                st.write("Pharmacy: Expiry")
-                # Placeholder for Expiry tracking functionality
-                # Display medicines nearing expiry
+                expiry(st.session_state.connection)
             elif selected == "Minimum Stock":
-                st.write("Pharmacy: Minimum Stock")
-                # Placeholder for Minimum Stock tracking functionality
-                # Implement logic to track low stock and set thresholds
+                minStock(st.session_state.connection)
 
 
 

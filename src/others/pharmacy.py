@@ -98,22 +98,5 @@ def pharmacy_operations():
             else:
                 st.info(f"No medicines below {minimum_stock_threshold} units.")
 
-    # Main dashboard for pharmacy
-    st.sidebar.title("Pharmacy Dashboard")
 
-    # Menu options for pharmacy
-    menu_options = ["Add Stock", "Consumption", "Current Stock", "Expiry", "Minimum Stock"]
-    choice = st.sidebar.selectbox("Select Operation", menu_options)
 
-    if choice == "Add Stock":
-        manage_inventory()
-    elif choice == "Consumption":
-        record_consumption()
-    elif choice == "Current Stock":
-        view_current_stock()
-    elif choice == "Expiry":
-        view_expiring_medicines()
-    elif choice == "Minimum Stock":
-        view_minimum_stock()
-
-# You can now call this function in your main application to display the pharmacy dashboard
