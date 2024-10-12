@@ -8,8 +8,11 @@ from dateutil.parser import parse
 from  streamlit_option_menu import option_menu
 
 def Dashboard(connection,cursor,accessLevel):
-    r0c1, r0c2 = st.columns([2,8])
+    if 'optFilter' not in st.session_state:
+        st.session_state.optFilter = "Healthy"
+    r0c1, r0c2 = st.columns([3,7])
     with r0c1:
+        st.write('\n')
         st.write('\n')
         st.subheader("Nurse > Dashboard")
     with r0c2:
@@ -853,7 +856,69 @@ def Dashboard(connection,cursor,accessLevel):
     r2c1, r2c2 = st.columns([3,7])
     with r2c1:
         with st.container(border=1, height = 700):
-            opt = option_menu("Filter", options=["Healthy", "Unhealthy"])
+            st.session_state.optFilter = option_menu("Filter", options=["Healthy", "Unhealthy"])
     with r2c2:
         with st.container(border=1, height=700):
-            st.subheader('Dashboard')
+            rc1, rc2 = st.columns([2,8])
+            with rc1:
+                st.subheader('Dashboard')
+            with rc2:
+                opt = option_menu(None, ["Total Footfalls", "Employee", "Contractor"],orientation='horizontal',icons=['a','a','a'])
+            r1c1, r1c2, r1c3, r1c4 = st.columns(4)
+            with r1c1:
+                with st.container(border=True):
+                    st.markdown(
+                        """
+                        <div style=  height: 100px; display: flex; align-items: center; justify-content: center;">
+                            <div style="text-align: center;">
+                                <h2 style="margin-left: 24px; margin-top: -15px;">10</h2>
+                                <p style=" font-weight: bold;">Total Footfalls</p>
+                            </div>
+                        </div>
+                        """, 
+                        unsafe_allow_html=True
+                    )
+            with r1c2:
+                with st.container(border=True):
+                    st.markdown(
+                        """
+                        <div style=  height: 100px; display: flex; align-items: center; justify-content: center;">
+                            <div style="text-align: center;">
+                                <h2 style="margin-left: 24px; margin-top: -15px;">10</h2>
+                                <p style=" font-weight: bold;">Healthy Entry</p>
+                            </div>
+                        </div>
+                        """, 
+                        unsafe_allow_html=True
+                    )
+            with r1c3:
+                with st.container(border=True):
+                    st.markdown(
+                        """
+                        <div style=  height: 100px; display: flex; align-items: center; justify-content: center;">
+                            <div style="text-align: center;">
+                                <h2 style="margin-left: 24px; margin-top: -15px;">10</h2>
+                                <p style=" font-weight: bold;">Unhealthy Entry</p>
+                            </div>
+                        </div>
+                        """, 
+                        unsafe_allow_html=True
+                    )
+            with r1c4:
+                with st.container(border=True):
+                    st.markdown(
+                        """
+                        <div style=  height: 100px; display: flex; align-items: center; justify-content: center;">
+                            <div style="text-align: center;">
+                                <h2 style="margin-left: 24px; margin-top: -15px;">10</h2>
+                                <p style=" font-weight: bold;">Appointments</p>
+                            </div>
+                        </div>
+                        """, 
+                        unsafe_allow_html=True
+                    )
+            with st.container(border=1, height=500):
+                if st.session_state.optFilter == "Healthy":
+                    st.write("*Healthy Entry*")
+                if st.session_state.optFilter == "Unhealthy":
+                    st.write("*Unhealthy Entry*")
