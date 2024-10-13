@@ -15,18 +15,13 @@ from others.eventsandcamps import Events_Camps
 from others.recordsandfilters import Records_Filters
 from others.mockdrill import Mock_Drill
 from others.appointment import Appointment
+from others.reviewpeople import Review_People
 from others.admin.pages.dashboard import dashboard
 from others.admin.pages.addDoctor import addDoctor
 from others.admin.pages.addNurse import addNurse
 from others.admin.pages.addReferenceRange import addReferenceRange
 from streamlit_option_menu import option_menu
 from others.admin.pages.addEmp import addEmp
-from others.alcoholics import alcoholics
-from others.addStock import addStock
-from others.currentStock import currStock
-from others.minStock import minStock
-from others.Expiry import expiry
-from others.consumption import consumption
 
 
 icon = Image.open("./src/assets/favicon.png")
@@ -46,7 +41,7 @@ MainMenu, header, footer {visibility: hidden;}
 </style>
 """,unsafe_allow_html=True)
 
-if 'connection' not in st.session_state or not st.session_state.connection.is_connected():
+if "connection" not in st.session_state:
     st.session_state.connection =  mysql.connector.connect(
         host="mysql-5893c62-jsw-test.a.aivencloud.com",
         user="avnadmin",
@@ -161,8 +156,8 @@ if __name__ == "__main__":
         if st.session_state.accessLevel == "doctor":
             with st.sidebar:
                 st.image("./src/assets/logo.png")
-                selected = option_menu(None, ['Search',"Dashboard", 'New Visit', 'Events & Camps', 'Records & Filters','Mock Drills', 'Appointments', ], 
-                    icons=['search', 'house','gear', 'calendar', 'filter', 'shield', 'calendar-check'],
+                selected = option_menu(None, ['Search',"Dashboard", 'New Visit', 'Events & Camps', 'Records & Filters','Mock Drills', 'Appointments','Review People'], 
+                    icons=['search', 'house','gear', 'calendar', 'filter', 'shield', 'calendar-check','person-vcard'],
                     menu_icon="building-fill-add", 
                     default_index=1)
                 
@@ -196,38 +191,35 @@ if __name__ == "__main__":
             
             if selected == "Appointments":
                 Appointment(st.session_state.connection, st.session_state.accessLevel)
-
-            if selected == "alcoholic":
-                alcoholics(st.session_state.connection, cursor)
-
             
+            if selected == "Review People":
+                Review_People(st.session_state.connection, st.session_state.accessLevel)
+
         
         if st.session_state.accessLevel == "nurse":
+            
             with st.sidebar:
                 st.image("./src/assets/logo.png")
-                selected = option_menu(
-                    None,
-                    options=['Search', 'Dashboard', 'New Visit', 'Events & Camps', 'Records & Filters', 'Mock Drills', 'Appointments', 'Alcoholic status'],
-                    icons=['search', 'house', 'gear', 'calendar', 'filter', 'shield', 'calendar-check', 'fa-wine-glass-alt'],  # Updated icon for Alcohol
-                    menu_icon="building-fill-add",
-                    default_index=1
-                )
+                selected = option_menu(None,options=['Search',"Dashboard", 'New Visit', 'Events & Camps', 'Records & Filters','Mock Drills', 'Appointments'], 
+                    icons=['search', 'house','gear', 'calendar', 'filter', 'shield', 'calendar-check'],
+                    menu_icon="building-fill-add", 
+                    default_index=1)
                 
                 st.divider()
-                st.header(f"Login as {st.session_state.accessLevel.capitalize()}")
-                st.divider()
 
+                st.header(f"Login as {st.session_state.accessLevel.capitalize()}")
+
+                st.divider()
                 if st.button("Logout"):
                     st.session_state.login = False
                     st.write("Logout Success")
                     st.rerun()
-
-            # Handling the menu item selections
+            
             if selected == "Dashboard":
-                Dashboard(st.session_state.connection, cursor, "nurse")
-
+                Dashboard(st.session_state.connection,cursor, "nurse")
+            
             if selected == "New Visit":
-                New_Visit(st.session_state.connection, cursor)
+                New_Visit(st.session_state.connection,cursor)
 
             if selected == "Search":
                 Search(cursor)
@@ -237,47 +229,11 @@ if __name__ == "__main__":
 
             if selected == "Records & Filters":
                 Records_Filters(cursor)
-
+            
             if selected == "Mock Drills":
-                Mock_Drill(st.session_state.connection, cursor)
-
+                Mock_Drill(st.session_state.connection,cursor)
+            
             if selected == "Appointments":
                 Appointment(st.session_state.connection, st.session_state.accessLevel)
 
-            if selected == "Alcoholic status":
-                alcoholics(st.session_state.connection, cursor)
-
-
-        if st.session_state.accessLevel == "pharmacy":
-            with st.sidebar:
-                st.image("./src/assets/logo.png")
-                selected = option_menu(
-                    None,
-                    options=['Add Stock', 'Consumption', 'Current Stock', 'Expiry', 'Minimum Stock'],
-                    icons=['plus-square', 'shopping-cart', 'box', 'clock', 'warning'],
-                    menu_icon="box-seam",
-                    default_index=0
-                )
-                st.divider()
-                st.header(f"Login as {st.session_state.accessLevel.capitalize()}")
-                st.divider()
-
-                if st.button("Logout"):
-                    st.session_state.login = False
-                    st.write("Logout Success")
-                    st.rerun()
-
-            # Define functionality for each pharmacy operation
-            if selected == "Add Stock":
-                addStock(st.session_state.connection)
-            elif selected == "Consumption":
-                consumption(st.session_state.connection)
-            elif selected == "Current Stock":
-                currStock(st.session_state.connection)
-            elif selected == "Expiry":
-                expiry(st.session_state.connection)
-            elif selected == "Minimum Stock":
-                minStock(st.session_state.connection)
-
-
-
+            
