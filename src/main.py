@@ -22,7 +22,11 @@ from others.admin.pages.addNurse import addNurse
 from others.admin.pages.addReferenceRange import addReferenceRange
 from streamlit_option_menu import option_menu
 from others.admin.pages.addEmp import addEmp
-
+from others.addStock import addStock
+from others.consumption import consumption
+from others.currentStock import currStock
+from others.Expiry import expiry
+from others.minStock import minStock
 
 icon = Image.open("./src/assets/favicon.png")
 
@@ -237,3 +241,33 @@ if __name__ == "__main__":
                 Appointment(st.session_state.connection, st.session_state.accessLevel)
 
             
+        if st.session_state.accessLevel == "pharmacy":
+            with st.sidebar:
+                st.image("./src/assets/logo.png")
+                selected = option_menu(
+                    None,
+                    options=['Add Stock', 'Consumption', 'Current Stock', 'Expiry', 'Minimum Stock'],
+                    icons=['plus-square', 'cart', 'box', 'clock', 'exclamation-triangle'],  # Updated icons
+                    menu_icon="box-seam",
+                    default_index=0
+                )
+                st.divider()
+                st.header(f"Login as {st.session_state.accessLevel.capitalize()}")
+                st.divider()
+
+                if st.button("Logout"):
+                    st.session_state.login = False
+                    st.write("Logout Success")
+                    st.rerun()
+
+            # Define functionality for each pharmacy operation
+            if selected == "Add Stock":
+                addStock(st.session_state.connection)
+            elif selected == "Consumption":
+                consumption(st.session_state.connection)
+            elif selected == "Current Stock":
+                currStock(st.session_state.connection)
+            elif selected == "Expiry":
+                expiry(st.session_state.connection)
+            elif selected == "Minimum Stock":
+                minStock(st.session_state.connection)

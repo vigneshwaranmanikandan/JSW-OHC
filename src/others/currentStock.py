@@ -5,11 +5,12 @@ def currStock(connection):
 
     # Fetch and display current stock
     cursor = connection.cursor()
-    # cursor.execute("SELECT * FROM pharmacy_inventory WHERE quantity > 0")
-    # stock = cursor.fetchall()
+    cursor.execute("SELECT * FROM pharmacy_inventory")
+    inventory = cursor.fetchall()
 
-    if 0:
-        df = pd.DataFrame(None, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date'])
+    # Display inventory in a table
+    if inventory:
+        df = pd.DataFrame(inventory, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date'])
         st.table(df)
     else:
         st.info("No medicines in stock.")
