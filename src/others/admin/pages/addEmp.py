@@ -6,10 +6,9 @@ from  streamlit_option_menu import option_menu
 
 def addEmp(connection,cursor):
     st.title("Add Employees")
-
     r0c1,r0c2,r0c3= st.columns([3,2,2])
     with r0c1:
-        
+
         form_name = option_menu(
             None,
             ["Basic details","others"],
@@ -90,4 +89,21 @@ def addEmp(connection,cursor):
             age = date.today().year - dob.year - ((date.today().month, date.today().day) < (dob.month, dob.day))
             st.text(f"Age: {age}")
 
-            # Save button        
+            # Save button
+            st.write("""
+            <style>
+                button[kind="primary"]{
+                    background-color: #22384F;
+                    color: white;
+                    border-radius: 5px;
+                    text-align: center;
+                    cursor: pointer;
+                    font-size: 20px;
+                    width: 10%;
+                    padding: 8px ;
+                    margin-left:1440px
+                }
+            </style>
+            """,unsafe_allow_html=True)  
+            if st.button(label="Save",type="primary"):
+                st.write("Data Saved")        
