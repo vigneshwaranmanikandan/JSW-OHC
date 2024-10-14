@@ -159,7 +159,7 @@ def Form(visitreason,select, select1, connection, cursor):
             data = cursor.fetchone()
             if data is not None:
                 
-                st.session_state.form_data["visitreason"] = "Pre Employment"  # Hardcoded value
+                st.session_state.form_data["Visit Reason"] = "Pre Employment"  # Hardcoded value
                 st.session_state.form_data["Employee Name"] = data[1]
                 st.session_state.form_data["Employee Age"] = data[3]
                 st.session_state.form_data['Gender'] = data[4]
@@ -173,7 +173,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No basic Data Found")
             cursor.execute(f"SELECT * FROM vitals WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if  len(df)!=0:
                 st.session_state.form_data["Systolic"] = df[-1][3]
                 st.session_state.form_data["Diastolic"] = df[-1][4]
                 st.session_state.form_data["Pulse"] = df[-1][5]
@@ -187,7 +187,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No Vitals found")
             cursor.execute(f"SELECT * FROM medicalpersonalhist WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 st.session_state.form_data["Personal History"] = df[0][3]
                 st.session_state.form_data["Medical History"] = df[0][4]
                 st.session_state.form_data["Surgical History"] = df[0][5]
@@ -197,7 +197,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No Medical History found")
             cursor.execute(f"SELECT * FROM hematology_result WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 st.session_state.form_data["Hemoglobin"] = df[-1][3]
                 st.session_state.form_data["Total RBC"] = df[-1][6]
                 st.session_state.form_data["Total WBC"] = df[-1][9]
@@ -220,7 +220,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No Hematology Result found")
             cursor.execute(f"SELECT * FROM routine_sugartest WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 st.session_state.form_data["Glucose (F)"] = df[-1][3]
                 st.session_state.form_data["Glucose (PP)"] = df[-1][6]
                 st.session_state.form_data["Random Blood sugar"] = df[-1][9]
@@ -231,7 +231,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No Routine Sugar Test Result found")
             cursor.execute(f"SELECT * FROM rft_result WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 st.session_state.form_data["Urea"] = df[-1][3]
                 st.session_state.form_data['BUN'] = df[-1][6]
                 st.session_state.form_data["Serum Creatinine"] = df[-1][9]
@@ -245,7 +245,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No Renal Function Test Result found")
             cursor.execute(f"SELECT * FROM lipid_profile WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 st.session_state.form_data["Total Cholesterol"] = df[-1][3]
                 st.session_state.form_data["Triglycerides"] = df[-1][6]
                 st.session_state.form_data["HDL - Cholesterol"] = df[-1][9]
@@ -257,7 +257,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No Lipid Profile Test Result found")
             cursor.execute(f"SELECT * FROM liver_function WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 st.session_state.form_data["Bilirubin - Total"] = df[-1][3] 
                 st.session_state.form_data["Bilirubin - Direct"] = df[-1][6] 
                 st.session_state.form_data["Bilirubin - Indirect"] = df[-1][9]
@@ -273,7 +273,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No Liver Function Test Result found")
             cursor.execute(f"SELECT * FROM thyroid_function_test WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 st.session_state.form_data["T3- Triiodothyroine"] = df[-1][3]
                 st.session_state.form_data["T4 - Thyroxine"] = df[-1][6] 
                 st.session_state.form_data["TSH- Thyroid Stimulating Hormone"] = df[-1][7]  
@@ -281,7 +281,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No Thyroid Function Test Result found")
             cursor.execute(f"SELECT * FROM autoimmune_test WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 st.session_state.form_data["ANA (Antinuclear Antibody)"] = df[-1][3]
                 st.session_state.form_data["Anti ds DNA"] = df[-1][6] 
                 st.session_state.form_data["Rheumatoid factor"] = df[-1][12] 
@@ -290,7 +290,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No Auto Inumme Test Result found")
             cursor.execute(f"SELECT * FROM coagulation_test WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 st.session_state.form_data["Prothrombin Time (PT)"] = df[-1][3] 
                 st.session_state.form_data["PT INR"] = df[-1][6] 
                 st.session_state.form_data["Bleeding Time (BT)"] = df[-1][9] 
@@ -299,7 +299,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No Coagulation Test Result found")
             cursor.execute(f"SELECT * FROM enzymes_cardio WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 
                 st.session_state.form_data["Acid Phosphatase"] = df[-1][3] 
                 st.session_state.form_data["Adenosine Deaminase"] = df[-1][6] 
@@ -318,7 +318,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No Enzymes Cardio Test Result found")
             cursor.execute(f"SELECT * FROM urine_routine WHERE emp_no =  {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 st.session_state.form_data["Colour"] = df[-1][3] 
                 st.session_state.form_data["Appearance"] = df[-1][6] 
                 st.session_state.form_data["Reaction (pH)"] = df[-1][9] 
@@ -339,7 +339,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No Urine Routine Test Result found")
             cursor.execute(f"SELECT * FROM serology_result WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 st.session_state.form_data["Screening For HIV I & II"] = df[-1][3] 
                 st.session_state.form_data["HBsAg"] = df[-1][6] 
                 st.session_state.form_data["HCV"] = df[-1][9] 
@@ -353,7 +353,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No Serology Result found")
             cursor.execute(f"SELECT * FROM motion WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 st.session_state.form_data["Colour (Motion)"] = df[-1][3] 
                 st.session_state.form_data["Appearance (Motion)"] = df[-1][6] 
                 st.session_state.form_data["Occult Blood"] = df[-1][9] 
@@ -367,7 +367,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No Motion Result found")
             cursor.execute(f"SELECT * FROM routine_culture WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 st.session_state.form_data["Urine"] = df[-1][3]
                 st.session_state.form_data["Motion"] = df[-1][6] 
                 st.session_state.form_data["Sputum"] = df[-1][9]
@@ -376,13 +376,13 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No Routine Cultre Sensitivity Result found")
             cursor.execute(f"SELECT * FROM mens_pack WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 st.session_state.form_data["PSA (Prostate specific Antigen)"] = df[-1][3]
             else:
                 st.warning("No Men's Pack Result found")
             cursor.execute(f"SELECT * FROM womens_pack WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 st.session_state.form_data["Mammogram"] = df[-1][3] 
                 st.session_state.form_data["Mammogram-Comments"] = df[-1][4] 
                 st.session_state.form_data["PAP Smear"] = df[-1][5] 
@@ -391,7 +391,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No Women's Pack Result found")
             cursor.execute(f"SELECT * FROM occupational_profile WHERE emp_no =  {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None:
+            if len(df)!=0:
                 st.session_state.form_data["Audiometry"] = df[-1][3] 
                 st.session_state.form_data["Audiometry-Comments"] = df[-1][4] 
                 st.session_state.form_data["PFT"] = df[-1][5] 
@@ -400,14 +400,14 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No Occupational Profile found")
             cursor.execute(f"SELECT * FROM other_tests WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 st.session_state.form_data["Pathology"] = df[-1][3] 
                 st.session_state.form_data["Pathology-Comments"] = df[-1][4]
             else:
                 st.warning("No Other Test Result found")
             cursor.execute(f"SELECT * FROM ophthalmic_report WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 st.session_state.form_data["Vision"] = df[-1][3] 
                 st.session_state.form_data["Vision-Comments"] = df[-1][4] 
                 st.session_state.form_data["Color Vision"] = df[-1][5] 
@@ -416,7 +416,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No Ophthalmic Test Result found")
             cursor.execute(f"SELECT * FROM x_ray WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 
                 st.session_state.form_data["X-RAY Chest"] =df[-1][3] 
                 st.session_state.form_data["X-RAY Chest-Comments"] =df[-1][4] 
@@ -432,7 +432,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No X-Ray Test Result found")
             cursor.execute(f"SELECT * FROM usg WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 
                 st.session_state.form_data["USG ABDOMEN"] = df[-1][3] 
                 st.session_state.form_data["USG ABDOMEN-Comments"] = df[-1][4] 
@@ -447,7 +447,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No USG Test Result found")
             cursor.execute(f"SELECT * FROM ct_report WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 st.session_state.form_data["CT Brain"] = df[-1][3] 
                 st.session_state.form_data["CT Brain-Comments"] = df[-1][4] 
                 st.session_state.form_data["CT Lungs"] = df[-1][9] 
@@ -462,7 +462,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No CT Test Result found")
             cursor.execute(f"SELECT * FROM mri WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             df = cursor.fetchall()
-            if df is not None: 
+            if len(df)!=0: 
                 
                 st.session_state.form_data["MRI Brain"] = df[-1][3] 
                 st.session_state.form_data["MRI Brain-Comments"] = df[-1][4]  
@@ -478,7 +478,7 @@ def Form(visitreason,select, select1, connection, cursor):
                 st.warning("No MRI Test Result found")
             # cursor.execute(f"SELECT * FROM fitness WHERE emp_no = {st.session_state.form_data["Employee ID"]};")
             # df = cursor.fetchall()
-            # if df is not None: 
+            # if len(df)!=0: 
             #     st.session_state.form_data["Fitness"] = df[-1][3]
             #     st.session_state.form_data["Fitness-Comments"] = df[-1][3] 
             # else:
@@ -486,28 +486,25 @@ def Form(visitreason,select, select1, connection, cursor):
             
     if form_name == "Basic Details":
         st.subheader("Basic Details")
-        r0c1, r0c2 = st.columns([1, 1])
-        with r0c1:
-            st.session_state.form_data["Visit Date"] = st.text_input("Visit Date", value=st.session_state.form_data.get("Visit Date", ""))
-        with r0c2:
-            st.session_state.form_data["Reference Type"] = st.selectbox('Select the hospital for the reference range', ["manipal", "Dharan", "Poornima"], index=0)
-
+        
         r1c1, r1c2, r1c3 = st.columns(3)
         with r1c1:
-            
+            st.session_state.form_data["Visit Date"] = st.date_input("Visit Date")
             st.session_state.form_data["Gender"] = st.text_input("Gender", value=st.session_state.form_data.get("Gender", ""))
             st.session_state.form_data["Mobile No."] = st.text_input("Mobile No.", value=st.session_state.form_data.get("Mobile No.", ""))
-
+            st.session_state.form_data["Vaccination Status"] = st.selectbox("Vaccination Status", options=['Yes', 'No'])
+        
         with r1c2:
+            st.session_state.form_data["Reference Type"] = st.selectbox('Select the hospital for the reference range', ["manipal", "Dharan", "Poornima"], index=0)
             st.session_state.form_data["Employee Name"] = st.text_input("Employee Name", value=st.session_state.form_data.get("Employee Name", ""))
             st.session_state.form_data["Department"] = st.text_input("Department", value=st.session_state.form_data.get("Department", ""))
             st.session_state.form_data["Blood Group"] = st.text_input("Blood Group", value=st.session_state.form_data.get("Blood Group", ""))
 
         with r1c3:
+            st.session_state.form_data["Visit Reason"] = st.text_input('Visit Reason', value = st.session_state.form_data.get("Visit Reason"))
             st.session_state.form_data["Employee Age"] = st.text_input("Employee Age", value=st.session_state.form_data.get("Employee Age", ""))
             st.session_state.form_data["Work"] = st.text_input("Work", value=st.session_state.form_data.get("Work", ""))
-            st.session_state.form_data["Vaccination Status"] = st.text_input("Vaccination Status", value=st.session_state.form_data.get("Vaccination Status", ""))
-        
+            
         st.session_state.form_data["Address"] = st.text_area("Address", value=st.session_state.form_data.get("Address", ""))
 
         r2c1, r2c2, r2c3 = st.columns([5, 2, 3])
@@ -518,82 +515,33 @@ def Form(visitreason,select, select1, connection, cursor):
         with r2c3:
             if st.button("Add Data", type="primary"):
                 emp_id = st.session_state.form_data["Employee ID"]
-                
-                # Prepare the SQL SELECT statement to check if the Employee ID exists
-                cursor.execute("SELECT * FROM Employee_det WHERE emp_no = %s", (emp_id,))
-                data = cursor.fetchone()
-
-                # Prepare the SQL statement for either inserting or updating
-                if data is not None:
-                    # Prepare the SQL UPDATE statement
-                    sql = """
-                    UPDATE Employee_det SET
-                        visit_date = %s,
-                        employee_name = %s,
-                        employee_age = %s,
-                        gender = %s,
-                        mobile_no = %s,
-                        address = %s,
-                        department = %s,
-                        work = %s,
-                        blood_group = %s,
-                        vaccination_status = %s
-                    WHERE emp_no = %s
-                    """
-                    values = (
-                        st.session_state.form_data["Visit Date"],
-                        st.session_state.form_data["Employee Name"],
-                        st.session_state.form_data["Employee Age"],
-                        st.session_state.form_data["Gender"],
-                        st.session_state.form_data["Mobile No."],
-                        st.session_state.form_data["Address"],
-                        st.session_state.form_data["Department"],
-                        st.session_state.form_data["Work"],
-                        st.session_state.form_data["Blood Group"],
-                        st.session_state.form_data["Vaccination Status"],
-                        st.session_state.form_data["Employee ID"]
-                    )
-
-                    try:
-                        # Execute the SQL UPDATE command
-                        cursor.execute(sql, values)
-                        connection.commit()  # Commit the changes to the database
-                        st.success("Data Updated Successfully")  # Show success message
-                    except mysql.connector.Error as e:
-                        st.error(f"Error updating data: {e}")  # Handle any SQL errors
-                else:
-                    # Prepare the SQL INSERT statement
-                    sql = """
-                    INSERT INTO Employee_det (
-                        emp_no, visit_date, employee_name, employee_age, gender,
-                        mobile_no, address, department, work, blood_group, vaccination_status
-                    ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    """
-                    values = (
-                        emp_id,
-                        st.session_state.form_data["Visit Date"],
-                        st.session_state.form_data["Employee Name"],
-                        st.session_state.form_data["Employee Age"],
-                        st.session_state.form_data["Gender"],
-                        st.session_state.form_data["Mobile No."],
-                        st.session_state.form_data["Address"],
-                        st.session_state.form_data["Department"],
-                        st.session_state.form_data["Work"],
-                        st.session_state.form_data["Blood Group"],
-                        st.session_state.form_data["Vaccination Status"]
-                    )
-
-                    try:
-                        # Execute the SQL INSERT command
-                        cursor.execute(sql, values)
-                        connection.commit()  # Commit the changes to the database
-                        st.success("Data Added Successfully")  # Show success message
-                    except mysql.connector.Error as e:
-                        st.error(f"Error inserting data: {e}")  # Handle any SQL errors
-
-                st.session_state.form_data["visitreason"] = visitreason  # Save visit reason if needed
-                st.rerun()  # Rerun the app to refresh the form data
-
+                sql = """
+                INSERT INTO basicdetails (
+                    emp_no, PatientName, PatientAge, Gender,
+                    MobileNo, Address, Department, Work, BloodGroup, Vaccinated, vistreason, hospital
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                """
+                values = (
+                    emp_id,
+                    st.session_state.form_data["Employee Name"],
+                    st.session_state.form_data["Employee Age"],
+                    st.session_state.form_data["Gender"],
+                    st.session_state.form_data["Mobile No."],
+                    st.session_state.form_data["Address"],
+                    st.session_state.form_data["Department"],
+                    st.session_state.form_data["Work"],
+                    st.session_state.form_data["Blood Group"],
+                    st.session_state.form_data["Vaccination Status"],
+                    st.session_state.form_data["Visit Reason"],
+                    st.session_state.form_data["Reference Type"]
+                )
+                try:
+                    # Execute the SQL INSERT command
+                    cursor.execute(sql, values)
+                    connection.commit()  # Commit the changes to the database
+                    st.success("Data Added Successfully")  # Show success message
+                except mysql.connector.Error as e:
+                    st.error(f"Error inserting data: {e}")  
     elif form_name == "Vitals":
         st.header("Vitals")
         r1c1,r1c2,r1c3 = st.columns([5,3,9])
@@ -715,58 +663,30 @@ def Form(visitreason,select, select1, connection, cursor):
         
         with r3c3:
             if st.button("Add Data", type="primary"):
-                # SQL logic for inserting or updating data in the database
                 try:
-                    # Check if data for the Employee ID already exists
                     emp_id = st.session_state.form_data["Employee ID"]
                     if not emp_id:
                         st.error("Employee ID is missing!")
                         return
-
-                    cursor.execute("SELECT * FROM vitals WHERE emp_no = %s", (emp_id,))
-                    existing_data = cursor.fetchone()
-
-                    # Update or insert record based on existing data
-                    if existing_data:
-                        cursor.execute("""
-                            UPDATE vitals
-                            SET `Systolic` = %s, `Diastolic` = %s, `PulseRate` = %s, `spo2` = %s, `BMI` = %s,
-                                `RespiratoryRate` = %s, `Weight` = %s, `Temperature` = %s, `Height` = %s
-                            WHERE `emp_no` = %s
-                        """, (
-                            st.session_state.form_data["Systolic"],
-                            st.session_state.form_data["Diastolic"],
-                            st.session_state.form_data["Pulse"],
-                            st.session_state.form_data["spo2"],
-                            st.session_state.form_data["BMI"],
-                            st.session_state.form_data["Respiratory Rate"],
-                            st.session_state.form_data["Weight"],
-                            st.session_state.form_data["Temperature"],
-                            st.session_state.form_data["Height"],
-                            emp_id
-                        ))
-                    else:
-                        cursor.execute("""
-                            INSERT INTO vitals (emp_no, Systolic, Diastolic, Pulse, spo2, BMI, Respiratory_Rate, Weight, Temperature, Height)
-                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                        """, (
-                            emp_id,
-                            st.session_state.form_data["Systolic"],
-                            st.session_state.form_data["Diastolic"],
-                            st.session_state.form_data["Pulse"],
-                            st.session_state.form_data["spo2"],
-                            st.session_state.form_data["BMI"],
-                            st.session_state.form_data["Respiratory Rate"],
-                            st.session_state.form_data["Weight"],
-                            st.session_state.form_data["Temperature"],
-                            st.session_state.form_data["Height"]
-                        ))
-
-                    # Commit the changes
+                    
+                    cursor.execute("""
+                        INSERT INTO vitals (emp_no, Systolic, Diastolic, PulseRate, entry_date,Spo2, BMI, RespiratoryRate, Weight, Temperature, Height)
+                        VALUES (%s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s)
+                    """, (
+                        emp_id,
+                        st.session_state.form_data["Systolic"],
+                        st.session_state.form_data["Diastolic"],
+                        st.session_state.form_data["Pulse"],
+                        datetime.now().date(),
+                        st.session_state.form_data["spo2"],
+                        st.session_state.form_data["BMI"],
+                        st.session_state.form_data["Respiratory Rate"],
+                        st.session_state.form_data["Weight"],
+                        st.session_state.form_data["Temperature"],
+                        st.session_state.form_data["Height"]
+                    ))
                     connection.commit()
                     st.success("Data successfully added/updated!")
-                    st.rerun()
-
                 except Exception as e:
                     st.error(f"Error saving data: {e}")
                     
@@ -779,11 +699,7 @@ def Form(visitreason,select, select1, connection, cursor):
         select_inv = st.selectbox("Select Investigation Form", inv_form)
 
         if select_inv == "HAEMATALOGY":
-            if 'emp_no' not in st.session_state:
-                st.session_state.emp_no = st.text_input("Employee No", value="")  # Replace with actual logic to fetch emp_no
-
         
-
             r1c1, r1c2, r1c3 = st.columns(3)
             with r1c1:
                 st.session_state.form_data["Hemoglobin"] = st.text_input("Hemoglobin", value=st.session_state.form_data.get("Hemoglobin", ""))
@@ -815,69 +731,59 @@ def Form(visitreason,select, select1, connection, cursor):
             with r3c3:
                 if st.button("Add Data", type="primary"):
 
-                    # Prepare data for insertion
+                                    # Prepare data for insertion
                     sql = """
-                        UPDATE hematology_result
-                        SET 
-                            entry_date = %s, 
-                            heamoglobin = %s, heamoglobin_unit = %s,
-                            rbc_count = %s, rbc_count_unit = %s,
-                            wbc_count = %s, wbc_count_unit = %s,
-                            haemotocrit = %s, haemotocrit_unit = %s,
-                            mcv = %s, mcv_unit = %s,
-                            mch = %s, mch_unit = %s,
-                            mchc = %s, mchc_unit = %s,
-                            platelet = %s, platelet_unit = %s,
-                            rdw = %s, rdw_unit = %s,
-                            neutrophil = %s, neutrophil_unit = %s,
-                            lymphocyte = %s, lymphocyte_unit = %s,
-                            eosinophil = %s, eosinophil_unit = %s,
-                            monocyte = %s, monocyte_unit = %s,
-                            basophils = %s, basophils_unit = %s,
-                            esr = %s, esr_unit = %s,
-                            pbs_rbc = %s, pbc_parasites = %s, pbc_others = %s, 
-                            year = %s, hospital = %s, batch = %s
-                        WHERE emp_no = %s
+                        INSERT INTO hematology_result (
+                            emp_no, entry_date, 
+                            heamoglobin, 
+                            rbc_count,  
+                            wbc_count, 
+                            haemotocrit,
+                            mcv, 
+                            mch, 
+                            mchc, 
+                            platelet, 
+                            rdw, 
+                            neutrophil, 
+                            lymphocyte, 
+                            eosinophil, 
+                            monocyte,  
+                            basophils, 
+                            esr, 
+                            pbs_rbc, pbc_parasites, pbc_others, year, hospital
+                        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     """
                     data = (
+                        st.session_state.form_data["Employee ID"],  # emp_no
                         datetime.now().date(),  # entry_date
-                        st.session_state.form_data["Hemoglobin"], '',  # heamoglobin, unit
-                        st.session_state.form_data["Total RBC"], '',  # rbc_count, unit
-                        st.session_state.form_data["Total WBC"], '',  # wbc_count, unit
-                        st.session_state.form_data["PCV"], '',  # haemotocrit, unit
-                        st.session_state.form_data["MCV"], '',  # mcv, unit
-                        st.session_state.form_data["MCH"], '',  # mch, unit
-                        st.session_state.form_data["MCHC"], '',  # mchc, unit
-                        st.session_state.form_data["Platelet Count"], '',  # platelet, unit
-                        st.session_state.form_data["RDW"], '',  # rdw, unit
-                        st.session_state.form_data["Neutrophil"], '',  # neutrophil, unit
-                        st.session_state.form_data["Lymphocyte"], '',  # lymphocyte, unit
-                        st.session_state.form_data["Eosinophil"], '',  # eosinophil, unit
-                        st.session_state.form_data["Monocyte"], '',  # monocyte, unit
-                        st.session_state.form_data["Basophil"], '',  # basophils, unit
-                        st.session_state.form_data["ESR"], '',  # esr, unit
+                        st.session_state.form_data["Hemoglobin"],  # heamoglobin, unit
+                        st.session_state.form_data["Total RBC"],  # rbc_count, unit
+                        st.session_state.form_data["Total WBC"],  # wbc_count, unit
+                        st.session_state.form_data["PCV"],  # haemotocrit, unit
+                        st.session_state.form_data["MCV"],  # mcv, unit
+                        st.session_state.form_data["MCH"],  # mch, unit
+                        st.session_state.form_data["MCHC"],  # mchc, unit
+                        st.session_state.form_data["Platelet Count"],  # platelet, unit
+                        st.session_state.form_data["RDW"],  # rdw, unit
+                        st.session_state.form_data["Neutrophil"],  # neutrophil, unit
+                        st.session_state.form_data["Lymphocyte"],  # lymphocyte, unit
+                        st.session_state.form_data["Eosinophil"],  # eosinophil, unit
+                        st.session_state.form_data["Monocyte"],  # monocyte, unit
+                        st.session_state.form_data["Basophil"],  # basophils, unit
+                        st.session_state.form_data["ESR"],  # esr, unit
                         st.session_state.form_data["Preipheral Blood Smear - RBC Morphology"],  # pbs_rbc
                         st.session_state.form_data["Preipheral Blood Smear - Parasites"],  # pbc_parasites
                         st.session_state.form_data["Preipheral Blood Smear - Others"],  # pbc_others
-                        datetime.now().year,  # year
-                        'your_hospital',  # hospital (replace with actual hospital name)
-                        'your_batch',  # batch (replace with actual batch number)
-                        st.session_state.emp_no  # emp_no for WHERE clause
+                        datetime.now().year,  
+                        st.session_state.form_data["Reference Type"], 
                     )
-                    
+
                     try:
-                        
                         cursor.execute(sql, data)
                         connection.commit()
-                        st.write("Data Updated Successfully")
-                        st.write(st.session_state.form_data)
+                        st.success("Data Inserted Successfully")
                     except mysql.connector.Error as e:
-                        st.write(f"Error updating data: {e}")
-
-                    
-
-            
-
+                        st.write(f"Error inserting data: {e}")
         
 
         if select_inv == "ROUTINE SUGAR TESTS":
@@ -903,7 +809,7 @@ def Form(visitreason,select, select1, connection, cursor):
 
                     # Prepare data for insertion
                     sql = """
-                        INSERT INTO routine_sugar_tests (
+                        INSERT INTO routine_sugartest (
                             entry_date, emp_no, glucosef, glucosepp, rbs,
                             eag, hba1c, year, hospital, batch
                         ) VALUES (
@@ -913,28 +819,23 @@ def Form(visitreason,select, select1, connection, cursor):
                     """
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # Use the fetched emp_no
+                        st.session_state.form_data['Employee ID'],  # Use the fetched emp_no
                         st.session_state.form_data["Glucose (F)"],  # glucosef
                         st.session_state.form_data["Glucose (PP)"],  # glucosepp
                         st.session_state.form_data["Random Blood sugar"],  # rbs
                         st.session_state.form_data["Estimated Average Glucose"],  # eag
                         st.session_state.form_data["HbA1c"],  # hba1c
                         datetime.now().year,  # year
-                        'your_hospital',  # hospital (replace with actual hospital name)
+                        st.session_state.form_data["Reference Type"],  # hospital (replace with actual hospital name)
                         'your_batch'  # batch (replace with actual batch number)
                     )
 
                     try:
                         cursor.execute(sql, data)
                         connection.commit()
-                        st.write("Data Saved Successfully")
+                        st.success("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-                    st.rerun()
 
                 
 
@@ -968,24 +869,18 @@ def Form(visitreason,select, select1, connection, cursor):
                 if st.button("Add Data", type="primary"):
                     # Prepare data for insertion
                     sql = """
-                        INSERT INTO renal_function_test (
-                            entry_date, emp_no, urea, urea_unit, urea_range,
-                            bun, bun_unit, bun_range,
-                            sr_creatinine, sr_creatinine_unit, sr_creatinine_range,
-                            uric_acid, uric_acid_unit, uric_acid_range,
-                            sodium, sodium_unit, sodium_range,
-                            potassium, potassium_unit, potassium_range,
-                            calcium, calcium_unit, calcium_range,
-                            phosphorus, phosphorus_unit, phosphorus_range,
-                            chloride, chloride_unit, chloride_range,
-                            bicarbonate, bicarbonate_unit, bicarbonate_range,
+                        INSERT INTO rft_result (
+                            entry_date, emp_no, urea, 
+                            bun, 
+                            sr_creatinine, 
+                            uric_acid, 
+                            sodium, 
+                            potassium, 
+                            calcium, 
+                            phosphorus, 
+                            chloride, 
                             year, hospital, batch
                         ) VALUES (
-                            %s, %s, %s, %s, %s,
-                            %s, %s, %s,
-                            %s, %s, %s,
-                            %s, %s, %s,
-                            %s, %s, %s,
                             %s, %s, %s,
                             %s, %s, %s,
                             %s, %s, %s,
@@ -995,19 +890,18 @@ def Form(visitreason,select, select1, connection, cursor):
                     """
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
-                        st.session_state.form_data["Urea"], st.session_state.form_data["Urea Unit"], st.session_state.form_data["Urea Range"],
-                        st.session_state.form_data["BUN"], st.session_state.form_data["BUN"], st.session_state.form_data["BUN Range"],
-                        st.session_state.form_data["Serum Creatinine"], st.session_state.form_data["Creatinine Unit"], st.session_state.form_data["Creatinine Range"],
-                        st.session_state.form_data["Uric Acid"], st.session_state.form_data["Uric Acid Unit"], st.session_state.form_data["Uric Acid Range"],
-                        st.session_state.form_data["Sodium"], st.session_state.form_data["Sodium Unit"], st.session_state.form_data["Sodium Range"],
-                        st.session_state.form_data["Potassium"], st.session_state.form_data["Potassium Unit"], st.session_state.form_data["Potassium Range"],
-                        st.session_state.form_data["Calcium"], st.session_state.form_data["Calcium Unit"], st.session_state.form_data["Calcium Range"],
-                        st.session_state.form_data["Phosphorus"], st.session_state.form_data["Phosphorus Unit"], st.session_state.form_data["Phosphorus Range"],
-                        st.session_state.form_data["Chloride"], st.session_state.form_data["Chloride Unit"], st.session_state.form_data["Chloride Range"],
-                        '', '', '',  # bicarbonate fields can be added similarly if needed
+                        st.session_state.form_data["Employee ID"],  # emp_no
+                        st.session_state.form_data["Urea"],
+                        st.session_state.form_data["BUN"], 
+                        st.session_state.form_data["Serum Creatinine"], 
+                        st.session_state.form_data["Uric Acid"], 
+                        st.session_state.form_data["Sodium"], 
+                        st.session_state.form_data["Potassium"], 
+                        st.session_state.form_data["Calcium"], 
+                        st.session_state.form_data["Phosphorus"], 
+                        st.session_state.form_data["Chloride"], 
                         datetime.now().year,  # year
-                        'your_hospital',  # hospital (replace with actual hospital name)
+                        st.session_state.form_data["Reference Type"],  # hospital (replace with actual hospital name)
                         'your_batch'  # batch (replace with actual batch number)
                     )
 
@@ -1017,14 +911,6 @@ def Form(visitreason,select, select1, connection, cursor):
                         st.write("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-                    st.rerun()
-
-            
-
 
         
         elif select_inv == "LIPID PROFILE":
@@ -1068,10 +954,10 @@ def Form(visitreason,select, select1, connection, cursor):
                     sql = """
                         INSERT INTO lipid_profile (
                             entry_date, emp_no,
-                            total_cholesterol, triglycerides,
+                            tcholesterol, triglycerides,
                             hdl_cholesterol, ldl_cholesterol,
-                            chol_hdl_ratio, vldl_cholesterol,
-                            ldl_hdl_ratio
+                            chol_hdlratio, vldl_cholesterol,
+                            ldlhdlratio
                         ) VALUES (
                             %s, %s,
                             %s, %s,
@@ -1083,7 +969,7 @@ def Form(visitreason,select, select1, connection, cursor):
                     
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
+                        st.session_state.form_data["Employee ID"],  # emp_no
                         st.session_state.form_data["Total Cholesterol"],
                         st.session_state.form_data["Triglycerides"],
                         st.session_state.form_data["HDL - Cholesterol"],
@@ -1100,14 +986,7 @@ def Form(visitreason,select, select1, connection, cursor):
                         st.write("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-                    st.session_state.form_data["visitreason"] = visitreason  # Make sure visitreason is defined in your scope
-                    st.rerun()
-
-            # Displaying the form data
+                    
             
 
 
@@ -1140,12 +1019,12 @@ def Form(visitreason,select, select1, connection, cursor):
                 if st.button("Add Data", type="primary"):
                     # Prepare SQL insertion
                     sql = """
-                        INSERT INTO liver_function_test (
+                        INSERT INTO liver_function (
                             entry_date, emp_no,
                             bilirubin_total, bilirubin_direct, bilirubin_indirect,
-                            sgot_ast, sgpt_alt, alkaline_phosphatase,
-                            total_protein, albumin_serum, globulin_serum,
-                            alb_glob_ratio, gamma_glutamyl_transferase
+                            sgot_alt, sgpt_alt, alkaline_phosphatase,
+                            total_protein, albumin, globulin,
+                            alb_globratio, gammagt
                         ) VALUES (
                             %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
                         )
@@ -1153,7 +1032,7 @@ def Form(visitreason,select, select1, connection, cursor):
                     
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
+                        st.session_state.form_data["Employee ID"],  # emp_no
                         st.session_state.form_data["Bilirubin - Total"],
                         st.session_state.form_data["Bilirubin - Direct"],
                         st.session_state.form_data["Bilirubin - Indirect"],
@@ -1174,15 +1053,8 @@ def Form(visitreason,select, select1, connection, cursor):
                         st.write("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
+                    
 
-                    st.session_state.form_data["visitreason"] = visitreason  # Make sure visitreason is defined in your scope
-                    st.rerun()
-
-            # Displaying the form data
-            
 
         
         elif select_inv == "THYROID FUNCTION TEST":
@@ -1206,13 +1078,13 @@ def Form(visitreason,select, select1, connection, cursor):
                     sql = """
                         INSERT INTO thyroid_function_test (
                             entry_date, emp_no,
-                            t3_triiodothyroine, t4_thyroxine, tsh_thyroid_stimulating_hormone
+                            t3, t4, tsh
                         ) VALUES (%s, %s, %s, %s, %s)
                     """
                     
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
+                        st.session_state.form_data["Employee ID"],  # emp_no
                         st.session_state.form_data["T3- Triiodothyroine"],
                         st.session_state.form_data["T4 - Thyroxine"],
                         st.session_state.form_data["TSH- Thyroid Stimulating Hormone"]
@@ -1222,15 +1094,10 @@ def Form(visitreason,select, select1, connection, cursor):
                     try:
                         cursor.execute(sql, data)
                         connection.commit()
-                        st.write("Data Saved Successfully")
+                        st.success("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-                    st.session_state.form_data["visitreason"] = visitreason  # Make sure visitreason is defined in your scope
-                    st.rerun()
+                    
 
             # Displaying the form data
             
@@ -1260,13 +1127,13 @@ def Form(visitreason,select, select1, connection, cursor):
                     sql = """
                         INSERT INTO autoimmune_test (
                             entry_date, emp_no,
-                            ana_antinuclear_antibody, anti_ds_dna, rheumatoid_factor, anticardiolipin_antibodies_igg_igm
+                            ana, adna, rheumatoid, anticardiolipin
                         ) VALUES (%s, %s, %s, %s, %s, %s)
                     """
                     
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
+                        st.session_state.form_data["Employee ID"],  # emp_no
                         st.session_state.form_data["ANA (Antinuclear Antibody)"],
                         st.session_state.form_data["Anti ds DNA"],
                         st.session_state.form_data["Rheumatoid factor"],
@@ -1277,15 +1144,10 @@ def Form(visitreason,select, select1, connection, cursor):
                     try:
                         cursor.execute(sql, data)
                         connection.commit()
-                        st.write("Data Saved Successfully")
+                        st.success("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-                    st.session_state.form_data["visitreason"] = visitreason  # Make sure visitreason is defined in your scope
-                    st.rerun()
+                    
 
             # Displaying the form data
             
@@ -1315,13 +1177,13 @@ def Form(visitreason,select, select1, connection, cursor):
                     sql = """
                         INSERT INTO coagulation_test (
                             entry_date, emp_no,
-                            prothrombin_time, pt_inr, bleeding_time, clotting_time
+                            pt, ptinr, bt, ct
                         ) VALUES (%s, %s, %s, %s, %s, %s)
                     """
                     
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
+                        st.session_state.form_data["Employee ID"],  # emp_no
                         st.session_state.form_data["Prothrombin Time (PT)"],
                         st.session_state.form_data["PT INR"],
                         st.session_state.form_data["Bleeding Time (BT)"],
@@ -1332,17 +1194,12 @@ def Form(visitreason,select, select1, connection, cursor):
                     try:
                         cursor.execute(sql, data)
                         connection.commit()
-                        st.write("Data Saved Successfully")
+                        st.success("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
+                    
 
-                    st.session_state.form_data["visitreason"] = visitreason  # Ensure visitreason is defined
-                    st.rerun()
-
-            # Displaying the form data
+            
             
 
 
@@ -1383,9 +1240,9 @@ def Form(visitreason,select, select1, connection, cursor):
                 if st.button("Add Data", type="primary"):
                     # Prepare SQL insertion
                     sql = """
-                        INSERT INTO enzymes_cardiac_profile (
+                        INSERT INTO enzymes_cardio (
                             entry_date, emp_no,
-                            acid_phosphatase, adenosine_deaminase, amylase,
+                            acid_phosphatase, adenosine, amylase,
                             ecg, ecg_comments, troponin_t, troponin_i,
                             cpk_total, echo, echo_comments, lipase,
                             cpk_mb, tmt, tmt_comments
@@ -1394,7 +1251,7 @@ def Form(visitreason,select, select1, connection, cursor):
                     
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
+                        st.session_state.form_data["Employee ID"],  # emp_no
                         st.session_state.form_data["Acid Phosphatase"],
                         st.session_state.form_data["Adenosine Deaminase"],
                         st.session_state.form_data["Amylase"],
@@ -1418,14 +1275,6 @@ def Form(visitreason,select, select1, connection, cursor):
                         st.write("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-                    st.session_state.form_data["visitreason"] = visitreason  # Ensure visitreason is defined
-                    st.rerun()
-
-            # Displaying the form data
             
 
 
@@ -1479,7 +1328,7 @@ def Form(visitreason,select, select1, connection, cursor):
                     
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
+                        st.session_state.form_data["Employee ID"],  # emp_no
                         st.session_state.form_data["Colour"],
                         st.session_state.form_data["Appearance"],
                         st.session_state.form_data["Reaction (pH)"],
@@ -1502,18 +1351,10 @@ def Form(visitreason,select, select1, connection, cursor):
                     try:
                         cursor.execute(sql, data)
                         connection.commit()
-                        st.write("Data Saved Successfully")
+                        st.success("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-                    st.session_state.form_data["visitreason"] = visitreason  # Ensure visitreason is defined
-                    st.rerun()
-
-            # Displaying the form data
-            
+                    
 
 
 
