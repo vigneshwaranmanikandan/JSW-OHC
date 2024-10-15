@@ -1387,17 +1387,17 @@ def Form(visitreason,select, select1, connection, cursor):
                 if st.button("Add Data", type="primary"):
                     # Prepare SQL insertion (add your SQL connection logic)
                     sql = """
-                        INSERT INTO serology (
+                        INSERT INTO serology_result (
                             entry_date, emp_no,
-                            screening_hiv_1_2, hbsag, hcv, 
-                            vdrl, dengue_ns1ag, dengue_igg, 
-                            dengue_igm, widal
+                            hiv_screening, hbsag, hcv, 
+                            vdrl, denguens, dengueigg, 
+                            dengueigm, widal
                         ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     """
                     
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
+                        st.session_state.form_data["Employee ID"],  # emp_no
                         st.session_state.form_data["Screening For HIV I & II"],
                         st.session_state.form_data["HBsAg"],
                         st.session_state.form_data["HCV"],
@@ -1415,12 +1415,7 @@ def Form(visitreason,select, select1, connection, cursor):
                         st.write("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-                    st.session_state.form_data["visitreason"] = visitreason  # Ensure visitreason is defined
-                    st.rerun()
+                
 
             # Displaying the form data
             
@@ -1458,15 +1453,15 @@ def Form(visitreason,select, select1, connection, cursor):
                     sql = """
                         INSERT INTO motion (
                             entry_date, emp_no,
-                            colour_motion, appearance_motion, occult_blood, 
+                            colour, appearance, occult_blood, 
                             cyst, mucus, pus_cells, 
-                            ova, rbcs, others
-                        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                            ova, rbcs, others_t
+                        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     """
                     
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
+                        st.session_state.form_data['Employee ID'],  # emp_no
                         st.session_state.form_data["Colour (Motion)"],
                         st.session_state.form_data["Appearance (Motion)"],
                         st.session_state.form_data["Occult Blood"],
@@ -1485,14 +1480,7 @@ def Form(visitreason,select, select1, connection, cursor):
                         st.write("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-                    st.session_state.form_data["visitreason"] = visitreason  # Ensure visitreason is defined
-                    st.rerun()
-
-            # Displaying the form data
+                  
             
 
 
@@ -1529,7 +1517,7 @@ def Form(visitreason,select, select1, connection, cursor):
                     
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
+                        st.session_state.form_data["Employee ID"],  # emp_no
                         st.session_state.form_data["Urine"],
                         st.session_state.form_data["Motion"],
                         st.session_state.form_data["Sputum"],
@@ -1543,14 +1531,7 @@ def Form(visitreason,select, select1, connection, cursor):
                         st.write("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-                    st.session_state.form_data["visitreason"] = visitreason  # Ensure visitreason is defined
-                    st.rerun()
-
-            # Displaying the form data
+                    
             
 
 
@@ -1581,7 +1562,7 @@ def Form(visitreason,select, select1, connection, cursor):
                     
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
+                        st.session_state.form_data["Employee ID"],  # emp_no
                         st.session_state.form_data["PSA (Prostate specific Antigen)"]
                     )
 
@@ -1592,14 +1573,6 @@ def Form(visitreason,select, select1, connection, cursor):
                         st.write("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-                    st.session_state.form_data["visitreason"] = visitreason  # Ensure visitreason is defined
-                    st.rerun()
-
-            # Displaying the form data
             
 
         
@@ -1633,14 +1606,14 @@ def Form(visitreason,select, select1, connection, cursor):
                     sql = """
                         INSERT INTO womens_pack (
                             entry_date, emp_no,
-                            mammogram_result, mammogram_comments,
-                            pap_smear_result, pap_smear_comments
+                            mammogram_nm_ab, mammogram_comment,
+                            pap_nm_ab, pap_comment
                         ) VALUES (%s, %s, %s, %s, %s, %s)
                     """
                     
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
+                        st.session_state.form_data["Employee ID"],  # emp_no
                         st.session_state.form_data["Mammogram"],
                         st.session_state.form_data.get("Mammogram-Comments", ""),  # Comment if Abnormal
                         st.session_state.form_data["PAP Smear"],
@@ -1654,14 +1627,6 @@ def Form(visitreason,select, select1, connection, cursor):
                         st.write("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-                    st.session_state.form_data["visitreason"] = visitreason  # Ensure visitreason is defined
-                    st.rerun()
-
-            # Displaying the form data
             
 
 
@@ -1696,14 +1661,14 @@ def Form(visitreason,select, select1, connection, cursor):
                     sql = """
                         INSERT INTO occupational_profile (
                             entry_date, emp_no,
-                            audiometry_result, audiometry_comments,
-                            pft_result, pft_comments
+                            audiometry_nm_ab, audiometry_comment,
+                            pft_nm_ab, pft_comment
                         ) VALUES (%s, %s, %s, %s, %s, %s)
                     """
                     
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
+                        st.session_state.form_data["Employee ID"],  # emp_no
                         st.session_state.form_data["Audiometry"],
                         st.session_state.form_data.get("Audiometry-Comments", ""),  # Comment if Abnormal
                         st.session_state.form_data["PFT"],
@@ -1717,15 +1682,6 @@ def Form(visitreason,select, select1, connection, cursor):
                         st.write("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-                    st.session_state.form_data["visitreason"] = visitreason  # Ensure visitreason is defined
-                    st.rerun()
-
-            # Displaying the form data
-            
 
         
         elif select_inv == "Others TEST":
@@ -1750,15 +1706,15 @@ def Form(visitreason,select, select1, connection, cursor):
                 if st.button("Add Data", type="primary"):
                     # Prepare SQL insertion
                     sql = """
-                        INSERT INTO others_test (
+                        INSERT INTO other_tests (
                             entry_date, emp_no,
-                            pathology_result, pathology_comments
+                            pathology, pathology_comments
                         ) VALUES (%s, %s, %s, %s)
                     """
                     
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
+                        st.session_state.form_data["Employee ID"],  # emp_no
                         st.session_state.form_data["Pathology"],
                         st.session_state.form_data.get("Pathology-Comments", "")  # Comment if Abnormal
                     )
@@ -1770,15 +1726,6 @@ def Form(visitreason,select, select1, connection, cursor):
                         st.write("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-                    st.session_state.form_data["visitreason"] = visitreason  # Ensure visitreason is defined
-                    st.rerun()
-
-            # Displaying the form data
-            
 
 
         elif select_inv == "OPHTHALMIC REPORT":
@@ -1812,14 +1759,14 @@ def Form(visitreason,select, select1, connection, cursor):
                     sql = """
                         INSERT INTO ophthalmic_report (
                             entry_date, emp_no,
-                            vision_result, vision_comments,
-                            color_vision_result, color_vision_comments
+                            vision, vision_comments,
+                            colourvision, colourvision_comment
                         ) VALUES (%s, %s, %s, %s, %s, %s)
                     """
                     
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
+                        st.session_state.form_data["Employee ID"],  # emp_no
                         st.session_state.form_data["Vision"],
                         st.session_state.form_data.get("Vision-Comments", ""),  # Comment if Abnormal
                         st.session_state.form_data["Color Vision"],
@@ -1833,14 +1780,7 @@ def Form(visitreason,select, select1, connection, cursor):
                         st.write("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-                    st.session_state.form_data["visitreason"] = visitreason  # Ensure visitreason is defined
-                    st.rerun()
-
-            # Displaying the form data
+                    
             
 
         
@@ -1890,19 +1830,19 @@ def Form(visitreason,select, select1, connection, cursor):
                 if st.button("Add Data", type="primary"):
                     # Prepare SQL insertion
                     sql = """
-                        INSERT INTO xray_report (
+                        INSERT INTO x_ray (
                             entry_date, emp_no,
-                            xray_chest_result, xray_chest_comments,
-                            xray_kub_result, xray_kub_comments,
-                            xray_spine_result, xray_spine_comments,
-                            xray_pelvis_result, xray_pelvis_comments,
-                            xray_abdomen_result, xray_abdomen_comments
+                            chest_nm_ab, chest_comment,
+                            kub_nm_ab, kub_comment,
+                            spine_nm_ab, spine_comment,
+                            pelvis_nm_ab, pelvis_comment,
+                            abdomen_nm_ab, abdomen_comment
                         ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     """
                     
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
+                        st.session_state.form_data["Employee ID"],  # emp_no
                         st.session_state.form_data["X-RAY Chest"],
                         st.session_state.form_data.get("X-RAY Chest-Comments", ""),  # Comment if Abnormal
                         st.session_state.form_data["X-RAY KUB"],
@@ -1922,14 +1862,7 @@ def Form(visitreason,select, select1, connection, cursor):
                         st.write("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-                    st.session_state.form_data["visitreason"] = visitreason  # Ensure visitreason is defined
-                    st.rerun()
-
-            # Displaying the form data
+                    
             
 
                 
@@ -1974,18 +1907,18 @@ def Form(visitreason,select, select1, connection, cursor):
                 if st.button("Add Data", type="primary"):
                     # Prepare SQL insertion
                     sql = """
-                        INSERT INTO usg_report (
+                        INSERT INTO usg (
                             entry_date, emp_no,
-                            usg_abdomen_result, usg_abdomen_comments,
-                            usg_kub_result, usg_kub_comments,
-                            usg_pelvis_result, usg_pelvis_comments,
-                            usg_neck_result, usg_neck_comments
+                            abdomen, abdomen_comments,
+                            kub, kub_comments,
+                            pelvis, pelvis_comments,
+                            neck, neck_comments
                         ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     """
                     
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
+                        st.session_state.form_data["Employee ID"],  # emp_no
                         st.session_state.form_data["USG ABDOMEN"],
                         st.session_state.form_data.get("USG ABDOMEN-Comments", ""),  # Comment if Abnormal
                         st.session_state.form_data["USG KUB"],
@@ -2003,14 +1936,6 @@ def Form(visitreason,select, select1, connection, cursor):
                         st.write("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-                    st.session_state.form_data["visitreason"] = visitreason  # Ensure visitreason is defined
-                    st.rerun()
-
-            # Displaying the form data
             
 
         
@@ -2062,17 +1987,17 @@ def Form(visitreason,select, select1, connection, cursor):
                     sql = """
                         INSERT INTO ct_report (
                             entry_date, emp_no,
-                            ct_brain_result, ct_brain_comments,
-                            ct_lungs_result, ct_lungs_comments,
-                            ct_abdomen_result, ct_abdomen_comments,
-                            ct_spine_result, ct_spine_comments,
-                            ct_pelvis_result, ct_pelvis_comments
+                            brain, brain_comment,
+                            ct_lungs, ct_lungs_comment,
+                            abdomen, abdomen_comment,
+                            spine, spine_comment,
+                            pelvis, pelvis_comment
                         ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     """
                     
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
+                        st.session_state.form_data["Employee ID"],  # emp_no
                         st.session_state.form_data["CT Brain"],
                         st.session_state.form_data.get("CT Brain-Comments", ""),  # Comment if Abnormal
                         st.session_state.form_data["CT Lungs"],
@@ -2092,14 +2017,7 @@ def Form(visitreason,select, select1, connection, cursor):
                         st.write("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-                    st.session_state.form_data["visitreason"] = visitreason  # Ensure visitreason is defined
-                    st.rerun()
-
-            # Displaying the form data
+                    
             
 
         
@@ -2149,19 +2067,19 @@ def Form(visitreason,select, select1, connection, cursor):
                 if st.button("Add Data", type="primary"):
                     # Prepare SQL insertion
                     sql = """
-                        INSERT INTO mri_report (
+                        INSERT INTO mri (
                             entry_date, emp_no,
-                            mri_brain_result, mri_brain_comments,
-                            mri_lungs_result, mri_lungs_comments,
-                            mri_abdomen_result, mri_abdomen_comments,
-                            mri_spine_result, mri_spine_comments,
-                            mri_pelvis_result, mri_pelvis_comments
+                            brain, brain_comments,
+                            mri_lungs, mri_lungs_comments,
+                            abdomen, abdomen_comments,
+                            spine, spine_comments,
+                            pelvis, pelvis_comments
                         ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     """
 
                     data = (
                         datetime.now().date(),  # entry_date
-                        st.session_state.emp_no,  # emp_no
+                        st.session_state.form_data["Employee ID"],  # emp_no
                         st.session_state.form_data["MRI Brain"],
                         st.session_state.form_data.get("MRI Brain-Comments", ""),  # Comment if Abnormal
                         st.session_state.form_data["MRI Lungs"],
@@ -2181,14 +2099,7 @@ def Form(visitreason,select, select1, connection, cursor):
                         st.write("Data Saved Successfully")
                     except mysql.connector.Error as e:
                         st.write(f"Error saving data: {e}")
-                    finally:
-                        cursor.close()
-                        connection.close()
-
-                    st.session_state.form_data["visitreason"] = visitreason  # Ensure visitreason is defined
-                    st.rerun()
-
-            # Displaying the form data
+                    
             
 
         
@@ -2220,8 +2131,8 @@ def Form(visitreason,select, select1, connection, cursor):
 
                 # Insert the data into the MySQL fitness table
                 insert_query = f"""
-                INSERT INTO fitness (PatientID, Status, comments)
-                VALUES ('{patient_id}', '{fitness_status}', '{fitness_comments}')
+                INSERT INTO fitness (PatientID, Status, comments, emp_no)
+                VALUES ('{patient_id}', '{fitness_status}', '{fitness_comments}', '{emp_no}')
                 """
 
                 try:
@@ -2231,10 +2142,6 @@ def Form(visitreason,select, select1, connection, cursor):
                     st.success("Data Saved Successfully")
                 except Exception as e:
                     st.error(f"Error saving data: {str(e)}")
-                finally:
-                    st.rerun()  # Rerun the Streamlit app to update session data
-                
-        # Output the current session data for debugging purposes
         
 
         
@@ -2624,46 +2531,11 @@ def Form(visitreason,select, select1, connection, cursor):
                     
         
 
-    def get_medicines_by_category(connection, category):
-        cursor = connection.cursor()
-        query = "SELECT medicine_name FROM pharmacy_inventory WHERE category = %s"
-        cursor.execute(query, (category,))
-        result = cursor.fetchall()
-        cursor.close()
-
-        # Flatten the result and return a list of medicine names
-        return [row[0] for row in result]
-
-    def reduce_medicine_quantity(connection, medicine_name, quantity):
-        cursor = connection.cursor()
-        # Debug information
-        print(f"Trying to reduce quantity for {medicine_name} by {quantity}")
-        
-        # Update quantity
-        query = "UPDATE pharmacy_inventory SET quantity = quantity - %s WHERE medicine_name = %s AND quantity >= %s"
-        cursor.execute(query, (quantity, medicine_name, quantity))
-        connection.commit()
-
-    # Check if rows were affected (if the quantity is reduced)
-    if cursor.rowcount == 0:
-        print(f"Medicine {medicine_name} does not have enough stock or does not exist")
-    cursor.close()
-
-
-# In the elif block (as described earlier)
-    if form_name == "Prescription":
-        
-
-        tablets = get_medicines_by_category(connection, "Tablets")
-        injections = get_medicines_by_category(connection, "Injection")
-        creams = get_medicines_by_category(connection, "Creams")
-        others = get_medicines_by_category(connection, "Other")
-
+    elif form_name=="Prescription":
         st.header("Prescription")
-
         st.write("""
             <style>
-                button[kind="primary"] {
+                button[kind="primary"]{
                     all: unset;
                     background-color: #22384F;
                     color: white;
@@ -2672,95 +2544,122 @@ def Form(visitreason,select, select1, connection, cursor):
                     cursor: pointer;
                     font-size: 20px;
                     width: 10%;
-                    padding: 10px;
+                    padding: 10px ;
                     margin-left:1000px;
+                    
                 }
             </style>
-        """, unsafe_allow_html=True)
-
-        # Tablets Section
+            """,unsafe_allow_html=True)
         st.subheader("Tablets")
-        c1, c2, c3, c4, c5 = st.columns([3, 2, 2, 2, 2])
+        c1,c2,c3,c4,c5=st.columns([3,2,2,2,2])
         with c1:
-            tablet1 = st.selectbox("Name of the Drug", tablets, index=None, key="tablet1")
-            tablet2 = st.selectbox("Name of the Drug", tablets, index=None, key="tablet2")
+            st.selectbox("Name of the Drug",["Drug1","Drug2","Drug3"],index=None)
+            st.selectbox("Name of the Drug",["Drug_1","Drug2","Drug3"],index=None)
         with c2:
-            qty1 = st.text_input("Qty", key="qty1")
-            qty2 = st.text_input("Qtys", key="qty2")
+            st.text_input("Qty")
+            st.text_input("Qtys")
+        with c3:
+            st.selectbox("Timing",["M","AN","N","Stat"],index=None)
+            st.selectbox("Timing",["M","AN","N_","Stat"],index=None)
+        with c4:
+            st.selectbox("Food",["BF","AF_","WF"],index=None)
+            st.selectbox("Food",["BF","AF","WF"],index=None)
+        with c5:
+            st.text_input("Day", placeholder="Comments...")
+            st.text_input("Days", placeholder="Comments...")
+        st.button("Add",type='primary')
+        
+        st.subheader("Injection")
+        c1,c2,c3,c4,c5=st.columns([3,2,2,2,2])
 
-        if st.button("Add Tablets", type='primary'):
-            try:
-                qty1 = int(qty1)
-                qty2 = int(qty2)
-                reduce_medicine_quantity(connection, tablet1, qty1)
-                reduce_medicine_quantity(connection, tablet2, qty2)
-                st.success(f"{tablet1} and {tablet2} quantities updated successfully!")
-            except ValueError:
-                st.error("Please enter valid quantities.")
-
-        # Injections Section
-        st.subheader("Injections")
-        c1, c2, c3, c4, c5 = st.columns([3, 2, 2, 2, 2])
-        with c1:
-            injection1 = st.selectbox("Name of the Drug", injections, index=None, key="injection1")
-            injection2 = st.selectbox("Name of the Drug", injections, index=None, key="injection2")
+        with c1:            
+            st.selectbox("Name of the Drug",["Drug1","Drug2","Drug3"],index=None,key="d1")
+            st.selectbox("Name of the Drug",["Drug_1","Drug2","Drug3"],index=None,key="d2")
         with c2:
-            qty3 = st.text_input("Qty", key="qty3")
-            qty4 = st.text_input("Qtys", key="qty4")
+            st.text_input("Qty",key="q1")
+            st.text_input("Qtys",key="q2")
+            
+        st.button("Add",key="a1",type="primary")
 
-        if st.button("Add Injections", type="primary"):
-            try:
-                qty3 = int(qty3)
-                qty4 = int(qty4)
-                reduce_medicine_quantity(connection, injection1, qty3)
-                reduce_medicine_quantity(connection, injection2, qty4)
-                st.success(f"{injection1} and {injection2} quantities updated successfully!")
-            except ValueError:
-                st.error("Please enter valid quantities.")
-
-        # Creams Section
         st.subheader("Creams")
-        c1, c2, c3, c4, c5 = st.columns([3, 2, 2, 2, 2])
-        with c1:
-            cream1 = st.selectbox("Name of the Drug", creams, index=None, key="cream1")
-            cream2 = st.selectbox("Name of the Drug", creams, index=None, key="cream2")
+        c1,c2,c3,c4,c5=st.columns([3,2,2,2,2])
+        with c1:            
+            st.selectbox("Name of the Drug",["Drug1","Drug2","Drug3"],index=None,key="d3")
+            st.selectbox("Name of the Drug",["Drug_1","Drug2","Drug3"],index=None,key="d4")
         with c2:
-            qty5 = st.text_input("Qty", key="qty5")
-            qty6 = st.text_input("Qtys", key="qty6")
-
-        if st.button("Add Creams", type="primary"):
-            try:
-                qty5 = int(qty5)
-                qty6 = int(qty6)
-                reduce_medicine_quantity(connection, cream1, qty5)
-                reduce_medicine_quantity(connection, cream2, qty6)
-                st.success(f"{cream1} and {cream2} quantities updated successfully!")
-            except ValueError:
-                st.error("Please enter valid quantities.")
-
-        # Others Section
+            st.text_input("Qty",key="q3")
+            st.text_input("Qtys",key="q4")
+        st.button("Add",key="a2",type="primary")
+        
         st.subheader("Others")
-        c1, c2, c3, c4, c5 = st.columns([3, 2, 2, 2, 2])
-        with c1:
-            other1 = st.selectbox("Name of the Drug", others, index=None, key="other1")
-            other2 = st.selectbox("Name of the Drug", others, index=None, key="other2")
+        c1,c2,c3,c4,c5=st.columns([3,2,2,2,2])      
+        with c1:            
+            st.selectbox("Name of the Drug",["Drug1","Drug2","Drug3"],index=None,key="d5")
+            st.selectbox("Name of the Drug",["Drug_1","Drug2","Drug3"],index=None,key="d6")
         with c2:
-            qty7 = st.text_input("Qty", key="qty7")
-            qty8 = st.text_input("Qtys", key="qty8")
+            st.text_input("Qty",key="q5")
+            st.text_input("Qtys",key="q6")
+        st.button("Add",key="a3",type="primary")
 
-        if st.button("Add Others", type="primary"):
-            try:
-                qty7 = int(qty7)
-                qty8 = int(qty8)
-                reduce_medicine_quantity(connection, other1, qty7)
-                reduce_medicine_quantity(connection, other2, qty8)
-                st.success(f"{other1} and {other2} quantities updated successfully!")
-            except ValueError:
-                st.error("Please enter valid quantities.")
 
-        # Close the database connection
-        connection.close()
-
+        st.markdown("""
+            <div id="custom-button-container" style='margin-top:20px;'>
+                <button id="custom-button">Submit</button>
+                <select id="opt">
+                    <option >SK</option>
+                    <option >DR</option>
+                    <option >AD</option>
+                </select>
+                <h4 id="let">Submited By</h4>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        st.markdown("""
+            <style>
+            #let{
+                float:right;
+                margin-left:80px;
+                    position:absolute;
+            }
+            </style>
+            """, unsafe_allow_html=True)
+        
+        st.markdown("""
+            <style>
+            #opt {
+                background-color: #22384F;
+                color: white;
+                border-radius: 5px;
+                padding: 10px 20px;
+                font-size: 16px;
+                    width:10%;
+                cursor: pointer;
+                float:right;
+                margin-right:60px;
+            }
+            </style>
+            """, unsafe_allow_html=True)
+        
+        st.markdown("""
+            <style>
+            #custom-button {
+                background-color: #22384F;
+                color: white;
+                border-radius: 5px;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                float:right;
+                margin-right:30px;
+            }
+            </style>
+            """, unsafe_allow_html=True)
+        
+        st.markdown("""
+            <div id="custom-button-container">
+                <button id="custom-button">Generate Prescription</button>
+            </div>
+            """, unsafe_allow_html=True)
             
 
     elif form_name=="Referral":
