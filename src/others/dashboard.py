@@ -856,7 +856,7 @@ def Dashboard(connection,cursor,accessLevel):
     r2c1, r2c2 = st.columns([3,7])
     with r2c1:
         with st.container(border=1, height = 700):
-            st.session_state.optFilter = option_menu("Filter", options=["Healthy", "Unhealthy"])
+            st.session_state.optFilter = option_menu("Filter", options=["Healthy", "Unhealthy"], icons=['a','a'])
     with r2c2:
         with st.container(border=1, height=700):
             rc1, rc2 = st.columns([2,8])
