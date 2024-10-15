@@ -12,7 +12,7 @@ def minStock(connection):
         low_stock_medicines = cursor.fetchall()
 
         if low_stock_medicines:
-            df = pd.DataFrame(low_stock_medicines, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date'])
+            df = pd.DataFrame(low_stock_medicines, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date','category'])
             st.table(df)
         else:
             st.info(f"No medicines below {minimum_stock_threshold} units.")

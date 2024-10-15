@@ -2783,11 +2783,46 @@ def Form(visitreason,select, select1, connection, cursor):
                     
         
 
-    elif form_name=="Prescription":
+    def get_medicines_by_category(connection, category):
+        cursor = connection.cursor()
+        query = "SELECT medicine_name FROM pharmacy_inventory WHERE category = %s"
+        cursor.execute(query, (category,))
+        result = cursor.fetchall()
+        cursor.close()
+
+        # Flatten the result and return a list of medicine names
+        return [row[0] for row in result]
+
+    def reduce_medicine_quantity(connection, medicine_name, quantity):
+        cursor = connection.cursor()
+        # Debug information
+        print(f"Trying to reduce quantity for {medicine_name} by {quantity}")
+        
+        # Update quantity
+        query = "UPDATE pharmacy_inventory SET quantity = quantity - %s WHERE medicine_name = %s AND quantity >= %s"
+        cursor.execute(query, (quantity, medicine_name, quantity))
+        connection.commit()
+
+    # Check if rows were affected (if the quantity is reduced)
+    if cursor.rowcount == 0:
+        print(f"Medicine {medicine_name} does not have enough stock or does not exist")
+    cursor.close()
+
+
+# In the elif block (as described earlier)
+    if form_name == "Prescription":
+        
+
+        tablets = get_medicines_by_category(connection, "Tablets")
+        injections = get_medicines_by_category(connection, "Injection")
+        creams = get_medicines_by_category(connection, "Creams")
+        others = get_medicines_by_category(connection, "Other")
+
         st.header("Prescription")
+
         st.write("""
             <style>
-                button[kind="primary"]{
+                button[kind="primary"] {
                     all: unset;
                     background-color: #22384F;
                     color: white;
@@ -2796,122 +2831,95 @@ def Form(visitreason,select, select1, connection, cursor):
                     cursor: pointer;
                     font-size: 20px;
                     width: 10%;
-                    padding: 10px ;
+                    padding: 10px;
                     margin-left:1000px;
-                    
                 }
             </style>
-            """,unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
+
+        # Tablets Section
         st.subheader("Tablets")
-        c1,c2,c3,c4,c5=st.columns([3,2,2,2,2])
+        c1, c2, c3, c4, c5 = st.columns([3, 2, 2, 2, 2])
         with c1:
-            st.selectbox("Name of the Drug",["Drug1","Drug2","Drug3"],index=None)
-            st.selectbox("Name of the Drug",["Drug_1","Drug2","Drug3"],index=None)
+            tablet1 = st.selectbox("Name of the Drug", tablets, index=None, key="tablet1")
+            tablet2 = st.selectbox("Name of the Drug", tablets, index=None, key="tablet2")
         with c2:
-            st.text_input("Qty")
-            st.text_input("Qtys")
-        with c3:
-            st.selectbox("Timing",["M","AN","N","Stat"],index=None)
-            st.selectbox("Timing",["M","AN","N_","Stat"],index=None)
-        with c4:
-            st.selectbox("Food",["BF","AF_","WF"],index=None)
-            st.selectbox("Food",["BF","AF","WF"],index=None)
-        with c5:
-            st.text_input("Day", placeholder="Comments...")
-            st.text_input("Days", placeholder="Comments...")
-        st.button("Add",type='primary')
-        
-        st.subheader("Injection")
-        c1,c2,c3,c4,c5=st.columns([3,2,2,2,2])
+            qty1 = st.text_input("Qty", key="qty1")
+            qty2 = st.text_input("Qtys", key="qty2")
 
-        with c1:            
-            st.selectbox("Name of the Drug",["Drug1","Drug2","Drug3"],index=None,key="d1")
-            st.selectbox("Name of the Drug",["Drug_1","Drug2","Drug3"],index=None,key="d2")
+        if st.button("Add Tablets", type='primary'):
+            try:
+                qty1 = int(qty1)
+                qty2 = int(qty2)
+                reduce_medicine_quantity(connection, tablet1, qty1)
+                reduce_medicine_quantity(connection, tablet2, qty2)
+                st.success(f"{tablet1} and {tablet2} quantities updated successfully!")
+            except ValueError:
+                st.error("Please enter valid quantities.")
+
+        # Injections Section
+        st.subheader("Injections")
+        c1, c2, c3, c4, c5 = st.columns([3, 2, 2, 2, 2])
+        with c1:
+            injection1 = st.selectbox("Name of the Drug", injections, index=None, key="injection1")
+            injection2 = st.selectbox("Name of the Drug", injections, index=None, key="injection2")
         with c2:
-            st.text_input("Qty",key="q1")
-            st.text_input("Qtys",key="q2")
-            
-        st.button("Add",key="a1",type="primary")
+            qty3 = st.text_input("Qty", key="qty3")
+            qty4 = st.text_input("Qtys", key="qty4")
 
+        if st.button("Add Injections", type="primary"):
+            try:
+                qty3 = int(qty3)
+                qty4 = int(qty4)
+                reduce_medicine_quantity(connection, injection1, qty3)
+                reduce_medicine_quantity(connection, injection2, qty4)
+                st.success(f"{injection1} and {injection2} quantities updated successfully!")
+            except ValueError:
+                st.error("Please enter valid quantities.")
+
+        # Creams Section
         st.subheader("Creams")
-        c1,c2,c3,c4,c5=st.columns([3,2,2,2,2])
-        with c1:            
-            st.selectbox("Name of the Drug",["Drug1","Drug2","Drug3"],index=None,key="d3")
-            st.selectbox("Name of the Drug",["Drug_1","Drug2","Drug3"],index=None,key="d4")
+        c1, c2, c3, c4, c5 = st.columns([3, 2, 2, 2, 2])
+        with c1:
+            cream1 = st.selectbox("Name of the Drug", creams, index=None, key="cream1")
+            cream2 = st.selectbox("Name of the Drug", creams, index=None, key="cream2")
         with c2:
-            st.text_input("Qty",key="q3")
-            st.text_input("Qtys",key="q4")
-        st.button("Add",key="a2",type="primary")
-        
+            qty5 = st.text_input("Qty", key="qty5")
+            qty6 = st.text_input("Qtys", key="qty6")
+
+        if st.button("Add Creams", type="primary"):
+            try:
+                qty5 = int(qty5)
+                qty6 = int(qty6)
+                reduce_medicine_quantity(connection, cream1, qty5)
+                reduce_medicine_quantity(connection, cream2, qty6)
+                st.success(f"{cream1} and {cream2} quantities updated successfully!")
+            except ValueError:
+                st.error("Please enter valid quantities.")
+
+        # Others Section
         st.subheader("Others")
-        c1,c2,c3,c4,c5=st.columns([3,2,2,2,2])      
-        with c1:            
-            st.selectbox("Name of the Drug",["Drug1","Drug2","Drug3"],index=None,key="d5")
-            st.selectbox("Name of the Drug",["Drug_1","Drug2","Drug3"],index=None,key="d6")
+        c1, c2, c3, c4, c5 = st.columns([3, 2, 2, 2, 2])
+        with c1:
+            other1 = st.selectbox("Name of the Drug", others, index=None, key="other1")
+            other2 = st.selectbox("Name of the Drug", others, index=None, key="other2")
         with c2:
-            st.text_input("Qty",key="q5")
-            st.text_input("Qtys",key="q6")
-        st.button("Add",key="a3",type="primary")
+            qty7 = st.text_input("Qty", key="qty7")
+            qty8 = st.text_input("Qtys", key="qty8")
 
+        if st.button("Add Others", type="primary"):
+            try:
+                qty7 = int(qty7)
+                qty8 = int(qty8)
+                reduce_medicine_quantity(connection, other1, qty7)
+                reduce_medicine_quantity(connection, other2, qty8)
+                st.success(f"{other1} and {other2} quantities updated successfully!")
+            except ValueError:
+                st.error("Please enter valid quantities.")
 
-        st.markdown("""
-            <div id="custom-button-container" style='margin-top:20px;'>
-                <button id="custom-button">Submit</button>
-                <select id="opt">
-                    <option >SK</option>
-                    <option >DR</option>
-                    <option >AD</option>
-                </select>
-                <h4 id="let">Submited By</h4>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        st.markdown("""
-            <style>
-            #let{
-                float:right;
-                margin-left:80px;
-                    position:absolute;
-            }
-            </style>
-            """, unsafe_allow_html=True)
-        
-        st.markdown("""
-            <style>
-            #opt {
-                background-color: #22384F;
-                color: white;
-                border-radius: 5px;
-                padding: 10px 20px;
-                font-size: 16px;
-                    width:10%;
-                cursor: pointer;
-                float:right;
-                margin-right:60px;
-            }
-            </style>
-            """, unsafe_allow_html=True)
-        
-        st.markdown("""
-            <style>
-            #custom-button {
-                background-color: #22384F;
-                color: white;
-                border-radius: 5px;
-                padding: 10px 20px;
-                font-size: 16px;
-                cursor: pointer;
-                float:right;
-                margin-right:30px;
-            }
-            </style>
-            """, unsafe_allow_html=True)
-        
-        st.markdown("""
-            <div id="custom-button-container">
-                <button id="custom-button">Generate Prescription</button>
-            </div>
-            """, unsafe_allow_html=True)
+        # Close the database connection
+        connection.close()
+
             
 
     elif form_name=="Referral":

@@ -10,7 +10,7 @@ def expiry(connection):
     expiring_medicines = cursor.fetchall()
 
     if expiring_medicines:
-        df = pd.DataFrame(expiring_medicines, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date'])
+        df = pd.DataFrame(expiring_medicines, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date','category'])
         st.table(df)
     else:
         st.info("No medicines are approaching expiry.")

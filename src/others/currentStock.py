@@ -10,7 +10,7 @@ def currStock(connection):
 
     # Display inventory in a table
     if inventory:
-        df = pd.DataFrame(inventory, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date'])
+        df = pd.DataFrame(inventory, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date','category'])
         st.table(df)
     else:
         st.info("No medicines in stock.")

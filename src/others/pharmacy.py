@@ -15,7 +15,7 @@ def pharmacy_operations():
 
         # Display inventory in a table
         if inventory:
-            df = pd.DataFrame(inventory, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date'])
+            df = pd.DataFrame(inventory, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date','category'])
             st.table(df)
 
         # Add new medicine to the inventory
@@ -28,7 +28,7 @@ def pharmacy_operations():
 
             if submit_button:
                 if medicine_name and quantity > 0:
-                    cursor.execute(f"INSERT INTO pharmacy_inventory (medicine_name, quantity, expiry_date) VALUES ('{medicine_name}', {quantity}, '{expiry_date}')")
+                    cursor.execute(f"INSERT INTO pharmacy_inventory (medicine_name, quantity, expiry_date,'category') VALUES ('{medicine_name}', {quantity}, '{expiry_date}','{category}')")
                     connection.commit()
                     st.success(f"{medicine_name} has been added to the inventory")
                 else:
@@ -42,7 +42,7 @@ def pharmacy_operations():
         cursor.execute("SELECT * FROM pharmacy_inventory")
         inventory = cursor.fetchall()
         if inventory:
-            df = pd.DataFrame(inventory, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date'])
+            df = pd.DataFrame(inventory, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date','category'])
             selected_medicine = st.selectbox("Select Medicine", df['Medicine Name'])
             quantity = st.number_input("Quantity Consumed", min_value=0)
             submit_button = st.button("Record Consumption")
@@ -61,7 +61,7 @@ def pharmacy_operations():
         stock = cursor.fetchall()
 
         if stock:
-            df = pd.DataFrame(stock, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date'])
+            df = pd.DataFrame(stock, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date','category'])
             st.table(df)
         else:
             st.info("No medicines in stock.")
@@ -75,7 +75,7 @@ def pharmacy_operations():
         expiring_medicines = cursor.fetchall()
 
         if expiring_medicines:
-            df = pd.DataFrame(expiring_medicines, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date'])
+            df = pd.DataFrame(expiring_medicines, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date','category'])
             st.table(df)
         else:
             st.info("No medicines are approaching expiry.")
@@ -93,7 +93,7 @@ def pharmacy_operations():
             low_stock_medicines = cursor.fetchall()
 
             if low_stock_medicines:
-                df = pd.DataFrame(low_stock_medicines, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date'])
+                df = pd.DataFrame(low_stock_medicines, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date','category'])
                 st.table(df)
             else:
                 st.info(f"No medicines below {minimum_stock_threshold} units.")

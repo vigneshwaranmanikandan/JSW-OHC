@@ -8,7 +8,7 @@ def consumption(connection):
     cursor.execute("SELECT * FROM pharmacy_inventory")
     inventory = cursor.fetchall()
     if inventory:
-        df = pd.DataFrame(inventory, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date'])
+        df = pd.DataFrame(inventory, columns=['ID', 'Medicine Name', 'Quantity', 'Expiry Date','category'])
         selected_medicine = st.selectbox("Select Medicine", df['Medicine Name'])
         quantity = st.number_input("Quantity Consumed", min_value=0)
         submit_button = st.button("Record Consumption")

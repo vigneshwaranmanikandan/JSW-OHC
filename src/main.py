@@ -51,13 +51,16 @@ if "connection" not in st.session_state:
         user="avnadmin",
         password="AVNS_uVkEh0awpxi9I4bEOCq",
         database="defaultdb",
-        port=19129
+        port=19129,
+        connection_timeout=600
     )
 
 if st.session_state.connection.is_connected():
-    pass
+    cursor = st.session_state.connection.cursor()
 else:
-    print("Connection failed")
+    st.session_state.connection.reconnect()
+    cursor = st.session_state.connection.cursor()
+
 
 if "accessLevel" not in st.session_state:
     st.session_state.accessLevel = None
