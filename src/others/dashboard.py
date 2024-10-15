@@ -6,7 +6,7 @@ import json
 from datetime import datetime
 from dateutil.parser import parse
 from  streamlit_option_menu import option_menu
-
+import matplotlib.pyplot as plt
 def Dashboard(connection,cursor,accessLevel):
     if 'optFilter' not in st.session_state:
         st.session_state.optFilter = "Healthy"
@@ -866,12 +866,16 @@ def Dashboard(connection,cursor,accessLevel):
                 opt = option_menu(None, ["Total Footfalls", "Employee", "Contractor"],orientation='horizontal',icons=['a','a','a'])
             r1c1, r1c2, r1c3, r1c4 = st.columns(4)
             with r1c1:
+                cursor.execute(f"SELECT count(PatientID) FROM basicdetails WHERE DATE(EntryDateTime) = CURDATE();")
+                footfalls = cursor.fetchall()
+                cursor.execute(f"SELECT count(appoint_ID) FROM appointments WHERE appoint_date = CURDATE();")
+                appoint = cursor.fetchall()
                 with st.container(border=True):
                     st.markdown(
-                        """
+                       f"""
                         <div style=  height: 100px; display: flex; align-items: center; justify-content: center;">
                             <div style="text-align: center;">
-                                <h2 style="margin-left: 24px; margin-top: -15px;">10</h2>
+                                <h2 style="margin-left: 24px; margin-top: -15px;">{footfalls[0][0]}</h2>
                                 <p style=" font-weight: bold;">Total Footfalls</p>
                             </div>
                         </div>
@@ -907,10 +911,10 @@ def Dashboard(connection,cursor,accessLevel):
             with r1c4:
                 with st.container(border=True):
                     st.markdown(
-                        """
+                        f"""
                         <div style=  height: 100px; display: flex; align-items: center; justify-content: center;">
                             <div style="text-align: center;">
-                                <h2 style="margin-left: 24px; margin-top: -15px;">10</h2>
+                                <h2 style="margin-left: 24px; margin-top: -15px;">{appoint[0][0]}</h2>
                                 <p style=" font-weight: bold;">Appointments</p>
                             </div>
                         </div>
@@ -920,5 +924,36 @@ def Dashboard(connection,cursor,accessLevel):
             with st.container(border=1, height=500):
                 if st.session_state.optFilter == "Healthy":
                     st.write("*Healthy Entry*")
+                    visitreason = []
+                    count = []
+
+                    
+                    cursor.execute("SELECT DISTINCT vistreason FROM basicdetails;")
+                    result = cursor.fetchall()
+
+               
+                    for row in result:
+                        visitreason.append(row[0])
+
+                  
+                    for reason in visitreason:
+                        cursor.execute("SELECT COUNT(PatientID) FROM basicdetails WHERE vistreason = %s AND DATE(entrydatetime) = CURDATE();", (reason,))
+                        count.append(cursor.fetchone()[0])  
+                    fig, ax = plt.subplots(figsize=(10, 4), facecolor='none')
+                    colors = ['#0C3D8C', '#C6256A', '#7C0C0C', '#7CAEFF', '#705314']  
+                    bars = ax.bar(visitreason, count, color=colors)
+                    ax.set_xlabel('')
+                    ax.set_ylabel('Count', fontsize=12, color='black')
+                    ax.set_xticks(range(len(visitreason)))
+                    ax.set_xticklabels(visitreason, rotation=45, ha="right", color='black')
+                    ax.grid(True, linestyle='--', alpha=0.6)
+                    ax.set_facecolor('none')  
+                    for spine in ax.spines.values():
+                        spine.set_visible(False)
+                    ax.legend(bars, visitreason, loc='lower center', bbox_to_anchor=(0.5, -0.2), fancybox=True, shadow=True, ncol=3)
+                    plt.tight_layout()
+                    
+                    st.pyplot(fig)
                 if st.session_state.optFilter == "Unhealthy":
                     st.write("*Unhealthy Entry*")
+
