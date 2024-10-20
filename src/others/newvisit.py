@@ -518,8 +518,8 @@ def Form(visitreason,select, select1, connection, cursor):
                 sql = """
                 INSERT INTO basicdetails (
                     emp_no, PatientName, PatientAge, Gender,
-                    MobileNo, Address, Department, Work, BloodGroup, Vaccinated, vistreason, hospital
-                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    MobileNo, Address, Department, Work, BloodGroup, Vaccinated, vistreason, hospital, status
+                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """
                 values = (
                     emp_id,
@@ -533,7 +533,8 @@ def Form(visitreason,select, select1, connection, cursor):
                     st.session_state.form_data["Blood Group"],
                     st.session_state.form_data["Vaccination Status"],
                     st.session_state.form_data["Visit Reason"],
-                    st.session_state.form_data["Reference Type"]
+                    st.session_state.form_data["Reference Type"],
+                    st.session_state.form_data["Health status"]
                 )
                 try:
                     # Execute the SQL INSERT command
@@ -2705,7 +2706,7 @@ def New_Visit(connection,cursor):
                 "Select Health Status",
                 options=["Healthy", "Unhealthy"]
             )
-
+            st.session_state.form_data["Health status"] = select1
         # If select is not Visitor and health status is Healthy
         if select != "Visitor" and select1 == "Healthy":
             with r0c1:

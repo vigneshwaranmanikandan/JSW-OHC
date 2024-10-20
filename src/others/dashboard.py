@@ -866,7 +866,7 @@ def Dashboard(connection,cursor,accessLevel):
                 opt = option_menu(None, ["Total Footfalls", "Employee", "Contractor"],orientation='horizontal',icons=['a','a','a'])
             r1c1, r1c2, r1c3, r1c4 = st.columns(4)
             with r1c1:
-                cursor.execute(f"SELECT count(PatientID) FROM basicdetails WHERE DATE(EntryDateTime) = CURDATE();")
+                cursor.execute(f"SELECT count(PatientID) FROM basicdetails WHERE status = 'Healthy' and DATE(EntryDateTime) = CURDATE();")
                 footfalls = cursor.fetchall()
                 cursor.execute(f"SELECT count(appoint_ID) FROM appointments WHERE appoint_date = CURDATE();")
                 appoint = cursor.fetchall()
@@ -925,19 +925,13 @@ def Dashboard(connection,cursor,accessLevel):
                 if st.session_state.optFilter == "Healthy":
                     st.write("*Healthy Entry*")
                     visitreason = []
-                    count = []
-
-                    
-                    cursor.execute("SELECT DISTINCT vistreason FROM basicdetails;")
+                    count = []                    
+                    cursor.execute("SELECT DISTINCT vistreason FROM basicdetails where status = 'Healthy';")
                     result = cursor.fetchall()
-
-               
                     for row in result:
-                        visitreason.append(row[0])
-
-                  
+                        visitreason.append(row[0])                  
                     for reason in visitreason:
-                        cursor.execute("SELECT COUNT(PatientID) FROM basicdetails WHERE vistreason = %s AND DATE(entrydatetime) = CURDATE();", (reason,))
+                        cursor.execute("SELECT COUNT(PatientID) FROM basicdetails WHERE status = 'Healthy' AND vistreason = %s AND DATE(entrydatetime) = CURDATE();", (reason,))
                         count.append(cursor.fetchone()[0])  
                     fig, ax = plt.subplots(figsize=(10, 4), facecolor='none')
                     colors = ['#0C3D8C', '#C6256A', '#7C0C0C', '#7CAEFF', '#705314']  
